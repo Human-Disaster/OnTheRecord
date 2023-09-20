@@ -1,0 +1,62 @@
+﻿<Properties StartupConfiguration="{4FECBF91-0F7B-4B95-BD71-78BDFA37A18A}|Default">
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.OnTheRecord PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="External Static Reference/Class1.cs">
+    <Files>
+      <File FileName="machanism test/Utility_function.cs" Line="10" Column="21" />
+      <File FileName="machanism test/Program.cs" Line="28" Column="32" />
+      <File FileName="External Static Reference/Class1.cs" Line="1" Column="33" />
+      <File FileName="machanism test/Map/Tile.cs" Line="57" Column="28" />
+      <File FileName="machanism test/Map/Room.cs" Line="21" Column="37" />
+      <File FileName="machanism test/Entity/Player.cs" Line="27" Column="10" />
+      <File FileName="machanism test/Entity/Object.cs" Line="7" Column="2" />
+      <File FileName="machanism test/Entity/Entity.cs" Line="6" Column="2" />
+      <File FileName="machanism test/Entity/Activable.cs" Line="22" Column="31" />
+      <File FileName="machanism test/Basic_Component/Equment.cs" Line="21" Column="1" />
+      <File FileName="machanism test/Basic_Component/Stats.cs" Line="11" Column="1" />
+      <File FileName="machanism test/Entity/Hostile.cs" Line="7" Column="21" />
+      <File FileName="machanism test/Entity/Pre_assembled.cs" Line="1" Column="33" />
+      <File FileName="machanism test/Map/TileState.cs" Line="14" Column="1" />
+      <File FileName="machanism test/Map/Map.cs.bak" Line="1" Column="1" />
+      <File FileName="machanism test/Map/Map.cs" Line="14" Column="1" />
+      <File FileName="External Static Reference/Enum_box.cs" Line="7" Column="30" />
+      <File FileName="machanism test/Interacterable/Active.cs" Line="14" Column="1" />
+      <File FileName="machanism test/Interacterable/Interacterble.cs" Line="12" Column="1" />
+      <File FileName="machanism test/Interacterable/Passive.cs" Line="14" Column="1" />
+      <File FileName="machanism test/Basic_Component/Skill.cs" Line="178" Column="9" />
+      <File FileName="machanism test/Basic_Component/Token.cs" Line="23" Column="13" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="machanism test" expanded="True">
+            <Node name="External Static Reference" expanded="True">
+              <Node name="Dependencies" expanded="True">
+                <Node name="FrameworkReferences" expanded="True" />
+              </Node>
+              <Node name="Class1.cs" selected="True" />
+            </Node>
+            <Node name="OnTheRecord" expanded="True">
+              <Node name="Dependencies" expanded="True">
+                <Node name="FrameworkReferences" expanded="True" />
+                <Node name="ProjectDependencies" expanded="True" />
+              </Node>
+              <Node name="Basic_Component" expanded="True" />
+              <Node name="Entity" expanded="True" />
+              <Node name="Interacterable" expanded="True" />
+              <Node name="Map" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+</Properties>

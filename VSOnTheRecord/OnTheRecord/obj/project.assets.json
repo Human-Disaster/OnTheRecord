@@ -1,0 +1,88 @@
+{
+  "version": 3,
+  "targets": {
+    "net6.0": {
+      "External Static Reference/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/External Static Reference.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/External Static Reference.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "External Static Reference/1.0.0": {
+      "type": "project",
+      "path": "../External Static Reference/External Static Reference.csproj",
+      "msbuildProject": "../External Static Reference/External Static Reference.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net6.0": [
+      "External Static Reference >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "/Users/jang_insuck/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/Users/jang_insuck/Downloads/OnTheRecord/OnTheRecord/machanism test/OnTheRecord.csproj",
+      "projectName": "OnTheRecord",
+      "projectPath": "/Users/jang_insuck/Downloads/OnTheRecord/OnTheRecord/machanism test/OnTheRecord.csproj",
+      "packagesPath": "/Users/jang_insuck/.nuget/packages/",
+      "outputPath": "/Users/jang_insuck/Downloads/OnTheRecord/OnTheRecord/machanism test/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/Users/jang_insuck/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net6.0"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "projectReferences": {
+            "/Users/jang_insuck/Downloads/OnTheRecord/OnTheRecord/External Static Reference/External Static Reference.csproj": {
+              "projectPath": "/Users/jang_insuck/Downloads/OnTheRecord/OnTheRecord/External Static Reference/External Static Reference.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net6.0": {
+        "targetAlias": "net6.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.301/RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

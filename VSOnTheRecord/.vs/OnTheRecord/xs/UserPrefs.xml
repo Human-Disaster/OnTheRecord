@@ -1,0 +1,40 @@
+﻿<Properties StartupConfiguration="{AB785649-387A-429F-81AF-2615B5205E18}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="OnTheRecord/Map/TileState.cs">
+    <Files>
+      <File FileName="External Static Reference/Class1.cs" Line="1" Column="33" />
+      <File FileName="External Static Reference/EnumBox.cs" Line="1" Column="1" />
+      <File FileName="OnTheRecord/Map/Map.cs" Line="1" Column="1" />
+      <File FileName="OnTheRecord/Map/Tile.cs" Line="1" Column="1" />
+      <File FileName="OnTheRecord/Map/TileMatrix.cs" Line="1" Column="1" />
+      <File FileName="OnTheRecord/Map/TileState.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="OnTheRecord" expanded="True">
+            <Node name="OnTheRecord" expanded="True">
+              <Node name="Entity" expanded="True" />
+              <Node name="Interacterable" expanded="True" />
+              <Node name="Map" expanded="True">
+                <Node name="TileState.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.OnTheRecord PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+  <DisabledProjects>
+    <String>machanism test/OnTheRecord.csproj</String>
+  </DisabledProjects>
+</Properties>

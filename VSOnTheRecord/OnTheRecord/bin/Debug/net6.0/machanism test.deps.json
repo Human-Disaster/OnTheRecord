@@ -1,0 +1,33 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "machanism test/1.0.0": {
+        "runtime": {
+          "machanism test.dll": {}
+        }
+      },
+      "External Static Reference/1.0.0": {
+        "runtime": {
+          "External Static Reference.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "machanism test/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "External Static Reference/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

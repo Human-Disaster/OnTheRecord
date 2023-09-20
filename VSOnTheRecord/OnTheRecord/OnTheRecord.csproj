@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>machanism_test</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>$(DefineConstants)TRACE;SERVER</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>$(DefineConstants)TRACE;SERVER</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\External Static Reference\External Static Reference.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Dmg_function.cs" />
+    <Compile Remove="DamgeRoll.cs" />
+    <Compile Remove="Trunprogress.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Interacterable\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interacterable\" />
+  </ItemGroup>
+</Project>
