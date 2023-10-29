@@ -40,12 +40,14 @@ namespace ExternalStaticReference
 	 */
 	public enum TokenType
 	{
-		None = 0b00000,
-		StatAdd = 0b00001,
-		StatMul = 0b00010,
-		DotDmg = 0b00100,
-		DotHeal = 0b01000,
-		CC = 0b10000
+		None =		0b0000000,
+		StatAdd =	0b0000001,
+		StatMul =	0b0000010,
+		DotDmg =	0b0000100,
+		DotHeal =	0b0001000,
+		CC =		0b0010000,
+		Harmful =	0b0100000,
+		Useful =	0b1000000
 	}
 
 	/*

@@ -11,10 +11,10 @@ using ExternalStaticReference;
  * 
  * 
  * 속성
- * itemType		EnumBox의 ItemType에 포함되는 녀석으로만 처리할 수 있어야할 것
- * itemCode		아이템 종류별 고유 코드. 같은 코드를 가지면 같은 아이템. 이 코드로 아이템 구분
- * weight		아이템의 무게. 
- * weight 이걸 여기에 박아두는 게 맞나? 아닌 거 같기도 한데 음...
+ * itemBase
+ *	itemType		EnumBox의 ItemType에 포함되는 녀석으로만 처리할 수 있어야할 것
+ *	itemCode		아이템 종류별 고유 코드. 같은 코드를 가지면 같은 아이템. 이 코드로 아이템 구분
+ *	weight			아이템의 무게.
  * stack		같은 아이템이 얼마나 쌓였는가.
  * 
  * 생성자
@@ -49,22 +49,22 @@ namespace OnTheRecord.BasicComponent
 {
 	class Item : IComparable<Item>
 	{
-		readonly int itemType = ItemType.None;
+		readonly ItemType itemType = ItemType.None;
 		readonly int itemCode = 0;
 		readonly int weight = 0;
 		private int stack = 0;
 
-		public bool Equals(Item other)
+		public bool Equals(Item? other)
 		{
 			if (other == null)
 				return false;
 			return (this.itemCode == other.itemCode);
 		}
 
-		public int CompareTo(Item other)
+		public int CompareTo(Item? other)
 		{
 			if (other == null)
-				return false;
+				return 0;
 			return (this->itemCode - other.itemCode);
 		}
 
