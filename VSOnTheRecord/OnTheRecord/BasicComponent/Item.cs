@@ -65,7 +65,7 @@ namespace OnTheRecord.BasicComponent
 		{
 			if (other == null)
 				return 0;
-			return (this->itemCode - other.itemCode);
+			return (this.itemCode - other.itemCode);
 		}
 
 		public static bool operator ==(Item a, Item b)
@@ -81,48 +81,48 @@ namespace OnTheRecord.BasicComponent
 			return !(a.Equals(b));
 		}
 
-		Item(int itemType, int itemCode, int weight)
+		Item(ItemType itemType, int itemCode, int weight)
 		{
-			this->itemType = itemType;
-			this->itemCode = itemCode;
-			this->weight = weight;
-			this->stack = 1;
+			this.itemType = itemType;
+			this.itemCode = itemCode;
+			this.weight = weight;
+			this.stack = 1;
 		}
 
-		Item(int itemType, int itemCode, int weight, int stack)
+		Item(ItemType itemType, int itemCode, int weight, int stack)
 		{
-			this->itemType = itemType;
-			this->itemCode = itemCode;
-			this->weight = weight;
-			this->stack = stack;
+			this.itemType = itemType;
+			this.itemCode = itemCode;
+			this.weight = weight;
+			this.stack = stack;
 		}
 
 		Item(Item source)
 		{
-			this->itemType = source.itemType;
-			this->itemCode = source.itemCode;
-			this->weight = source.weight;
-			this->stack = 1;
+			this.itemType = source.itemType;
+			this.itemCode = source.itemCode;
+			this.weight = source.weight;
+			this.stack = 1;
 		}
 
 		Item(Item source, int stack)
 		{
-			this->itemType = source.itemType;
-			this->itemCode = source.itemCode;
-			this->weight = source.weight;
-			this->stack = stack;
+			this.itemType = source.itemType;
+			this.itemCode = source.itemCode;
+			this.weight = source.weight;
+			this.stack = stack;
 		}
 
 		void AddStack(int stack)
 		{
-			this->stack += stack;
+			this.stack += stack;
 		}
 
 		bool SubStack(int stack)
 		{
-			if (this->stack < stack)
+			if (this.stack < stack)
 				return false;
-			this->stack -= stack;
+			this.stack -= stack;
 			return true;
 		}
 
@@ -130,7 +130,7 @@ namespace OnTheRecord.BasicComponent
 		{
 			if (this != source)
 				return false;
-			this->stack += source.stack;
+			this.stack += source.stack;
 			source.stack = 0;
 			return true;
 		}
@@ -139,19 +139,19 @@ namespace OnTheRecord.BasicComponent
 		{
 			if (this != source || source.stack < moveValue)
 				return false;
-			this->stack += source.stack;
+			this.stack += source.stack;
 			source.stack = 0;
 			return true;
 		}
 
 		bool IsEmpty()
 		{
-			return (this->stack == 0);
+			return (this.stack == 0);
 		}
 
 		long TotalWeight()
 		{
-			return ((long)this->weight * this->stack);
+			return ((long)this.weight * this.stack);
 		}
 	}
 }

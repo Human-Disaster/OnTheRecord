@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 */
 namespace OnTheRecord.BasicComponent
 {
-	struct CalStats
+	public struct CalStats
 	{
 		public float hpMaxS = 0;
 		//개체가 가질 수 있는 체력이 최대치. 개체는 이 수치 이상의 체력을 보유할 수 없다.

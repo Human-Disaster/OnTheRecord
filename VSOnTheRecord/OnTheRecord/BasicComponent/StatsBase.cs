@@ -16,7 +16,7 @@ using System.Text.RegularExpressions;
  */
 namespace OnTheRecord.BasicComponent
 {
-	class StatsBase : IComparable
+	public class StatsBase : IComparable
 	{
 		private static string _csvWordSplit = @",(?=(?:[^""]*""[^""]*"")*(?![^""]*""))";
 
@@ -73,9 +73,20 @@ namespace OnTheRecord.BasicComponent
 			resAcidS = float.Parse(values[22]);
 		}
 
+		public StatsBase(int code)
+		{
+			_statsCode = code;
+		}
+
 		public int CompareTo(object? obj)
 		{
-			return _statsCode.CompareTo((StatsBase)obj);
+			if (obj == null)
+				return 1;
+			StatsBase? other = obj as StatsBase;
+			if (other != null)
+				return this._statsCode.CompareTo(other._statsCode);
+			else
+				throw new ArgumentException("Object is not a StatsBase");
 		}
 
 		public static CalStats operator +(StatsBase a, StatsBase b)

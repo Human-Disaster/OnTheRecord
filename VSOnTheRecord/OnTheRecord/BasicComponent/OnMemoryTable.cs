@@ -18,6 +18,7 @@ namespace OnTheRecord.BasicComponent
 	class OnMemoryTable
 	{
 		private List<StatsBase> _StatsBaseList;
+		private List<TokenBase> _TokenBaseList;
 		private static OnMemoryTable? _Instance = null;
 		private static readonly object _Lock = new object();
 		private static string _csvWordSplit = @",(?=(?:[^""]*""[^""]*"")*(?![^""]*""))";
@@ -27,8 +28,10 @@ namespace OnTheRecord.BasicComponent
 			string csvText = ReadFile("파일 경로.csv");
 			string[] data = Regex.Split(csvText, _csvWordSplit);
 			_StatsBaseList = new List<StatsBase>(int.Parse(data[0]));
+			_TokenBaseList = new List<TokenBase>(int.Parse(data[1]));
 			// 각각의 BaseList 도 마찬가지로 초기화
 			MakeStatsBaseList();
+			MakeTokenBaseList();
 			// 각각의 BaseList 도 마찬가지로 구현
 		}
 
@@ -37,9 +40,35 @@ namespace OnTheRecord.BasicComponent
 			string csvText = ReadFile("파일 경로.csv");
 			var lines = Regex.Split(csvText, _csvLineSplit);
 			for (int i = 0; i < lines.Length; i++)
-			{
 				_StatsBaseList.Add(new StatsBase(lines[i]));
+			_StatsBaseList.Sort();
+		}
+
+		private void MakeTokenBaseList()
+		{
+			string csvText = ReadFile("파일 경로.csv");
+			var lines = Regex.Split(csvText, _csvLineSplit);
+			for (int i = 0; i < lines.Length; i++)
+				_TokenBaseList.Add(new TokenBase(lines[i]));
+			_TokenBaseList.Sort();
+			foreach(TokenBase TB in _TokenBaseList)
+			{
+				if (TB.promotionable)
+					TB.SetPromotionToken(GetTokenBase(TB.promotionTokenCode));
+				if (TB.demotionable)
+					TB.SetDemotionToken(GetTokenBase(TB.demotionTokenCode));
+				TB.SetAddStats(GetStatsBase(TB.addStatsCode));
+				TB.SetMulStats(GetStatsBase(TB.mulStatsCode));
 			}
+		}
+
+		public StatsBase GetStatsBase(int statsCode)
+		{
+			return _StatsBaseList[_StatsBaseList.BinarySearch(new StatsBase(statsCode))];
+		}
+		public TokenBase GetTokenBase(int tokenCode)
+		{
+			return _TokenBaseList[_TokenBaseList.BinarySearch(new TokenBase(tokenCode))];
 		}
 
 #if SERVER
