@@ -11,13 +11,43 @@ namespace OnTheRecord.BasicComponent
 {
 	public class Token : IComparable
 	{
-		TokenBase tokenBase;
+		public readonly TokenBase tBase;
 		public int stack = 0; // 토큰의 수량
 
-		Token(int tokenCode)
+		public Token(int tokenCode)
 		{
-			tokenBase = OnMemoryTable.Instance().GetTokenBase(tokenCode);
+			tBase = OnMemoryTable.Instance().GetTokenBase(tokenCode);
 			stack = 1;
+		}
+
+		public Token(int tokenCode, int stack)
+		{
+			tBase = OnMemoryTable.Instance().GetTokenBase(tokenCode);
+			this.stack = stack;
+		}
+
+		public Token(TokenBase otherBase)
+		{
+			tBase = otherBase;
+			stack = 1;
+		}
+
+		public Token(TokenBase otherBase, int stack)
+		{
+			tBase = otherBase;
+			this.stack = stack;
+		}
+
+		public Token(Token other)
+		{
+			tBase = other.tBase;
+			stack = other.stack;
+		}
+		
+		public Token(Token other, int stack)
+		{
+			tBase = other.tBase;
+			this.stack = stack;
 		}
 
 		public int CompareTo(object? obj)
@@ -25,7 +55,7 @@ namespace OnTheRecord.BasicComponent
 			if (obj == null) return 1;
 			Token? otherToken = obj as Token;
 			if (otherToken is not null)
-				return this.tokenBase.CompareTo(otherToken.tokenBase);
+				return this.tBase.CompareTo(otherToken.tBase);
 			else
 				throw new ArgumentException("Object is not a Token");
 		}
@@ -50,16 +80,16 @@ namespace OnTheRecord.BasicComponent
 		{
 			int i = _tokenList.BinarySearch(t);
 			if (i < 0)
-			{
 				_tokenList.Insert(~i, t);
-				_tokenList.Sort();
-			}
 			else
-			{
-			//존재하면, t의 리스트에 존재하는 토큰스택에 더해준다.
-			//todo
 				_tokenList[i].stack += t.stack;
+			if (t.tBase.overlapMax < _tokenList[i].stack)
+			{
+				// 토큰의 최대 중첩수를 넘어섰을 경우
+				_tokenList[i].stack = t.tBase.overlapMax;
+				//todo
 			}
+			_tokenList.Sort();
 		}
 
 		public void Add(int token_type, int stack_weight)

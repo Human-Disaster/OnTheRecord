@@ -16,6 +16,7 @@ namespace OnTheRecord.BasicComponent
 		public readonly int tokenType = 0;
 		public readonly bool unSeen = false;
 		public readonly int special;
+		public readonly bool effectOverlappable = false;
 		public readonly int overlapMax;
 		public readonly int removeSituation1;
 		public readonly int removeSituation2;
@@ -48,25 +49,26 @@ namespace OnTheRecord.BasicComponent
 			_tokenCode = int.Parse(values[0]);
 			nameCode = int.Parse(values[1]);
 			tokenType = int.Parse(values[2]);
-			unSeen = bool.Parse(values[3]);
+			unSeen = int.Parse(values[3]) == 1;
 			special = int.Parse(values[4]);
-			overlapMax = int.Parse(values[5]);
-			removeSituation1 = int.Parse(values[6]);
-			removeSituation2 = int.Parse(values[7]);
-			removeSituation3 = int.Parse(values[8]);
-			promotionable = bool.Parse(values[9]);
-			promotionTokenCode = int.Parse(values[10]);
-			demotionable = bool.Parse(values[11]);
-			demotionTokenCode = int.Parse(values[12]);
-			demotionTokenAmount = int.Parse(values[13]);
-			hpValueWhenRemove = float.Parse(values[14]);
-			apValueWhenRemove = float.Parse(values[15]);
-			sanValueWhenRemove = float.Parse(values[16]);
-			damageWhenRemove = bool.Parse(values[17]);
-			damageValueWhenRemove = float.Parse(values[18]);
-			damageTypeWhenRemove = int.Parse(values[19]);
-			addStatsCode = int.Parse(values[20]);
-			mulStatsCode = int.Parse(values[21]);
+			effectOverlappable = int.Parse(values[5]) == 1;
+			overlapMax = int.Parse(values[6]);
+			removeSituation1 = int.Parse(values[7]);
+			removeSituation2 = int.Parse(values[8]);
+			removeSituation3 = int.Parse(values[9]);
+			promotionable = int.Parse(values[10]) == 1;
+			promotionTokenCode = int.Parse(values[11]);
+			demotionable = int.Parse(values[12]) == 1;
+			demotionTokenCode = int.Parse(values[13]);
+			demotionTokenAmount = int.Parse(values[14]);
+			hpValueWhenRemove = float.Parse(values[15]);
+			apValueWhenRemove = float.Parse(values[16]);
+			sanValueWhenRemove = float.Parse(values[17]);
+			damageWhenRemove = int.Parse(values[18]) == 1;
+			damageValueWhenRemove = float.Parse(values[19]);
+			damageTypeWhenRemove = int.Parse(values[20]);
+			addStatsCode = int.Parse(values[21]);
+			mulStatsCode = int.Parse(values[22]);
 		}
 
 		public TokenBase(int code)
