@@ -12,6 +12,7 @@ namespace OnTheRecord.Map
         private Entity.Entity? entity;
         //private List<Interacterable.Interacterable> interacterables;
         private TileState? state;
+        private TileCondition? condition;
 
         public Tile() {
             this.entity = null;
