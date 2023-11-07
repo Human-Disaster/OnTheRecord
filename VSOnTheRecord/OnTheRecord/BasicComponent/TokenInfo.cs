@@ -8,17 +8,17 @@ namespace OnTheRecord.BasicComponent
 {
 	public class TokenInfo
 	{
-		public readonly bool tokenWhether;
-		private readonly int _tokenCode;
+		public readonly int _tokenCode;
 		private TokenBase? _token = null;
 		public ref readonly TokenBase token => ref _token;
 		public readonly int tokenAmount;
+		public readonly int targetCode;
 
-		public TokenInfo(bool tokenWhether, int tokenCode, int tokenAmount)
+		public TokenInfo(int tokenCode, int tokenAmount, int targetCode)
 		{
-			this.tokenWhether = true;
 			_tokenCode = tokenCode;
 			this.tokenAmount = tokenAmount;
+			this.targetCode = targetCode;
 		}
 
 		public void SetToken(TokenBase token)

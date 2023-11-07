@@ -12,30 +12,25 @@ namespace OnTheRecord.BasicComponent
 		private static string _csvWordSplit = @",(?=(?:[^""]*""[^""]*"")*(?![^""]*""))";
 
 		private readonly int _tokenCode;
-		public readonly int nameCode = 0;
-		public readonly int tokenType = 0;
-		public readonly bool unSeen = false;
+		public readonly int nameCode;
+		public readonly int tokenType;
+		public readonly bool unSeen;
 		public readonly int special;
-		public readonly bool effectOverlappable = false;
+		public readonly bool effectOverlappable;
 		public readonly int overlapMax;
 		public readonly int removeSituation1;
 		public readonly int removeSituation2;
 		public readonly int removeSituation3;
-		public readonly bool promotionable = false;
-		public readonly int promotionTokenCode = 0;
-		private TokenBase? _promotionToken = null;
-		public ref readonly TokenBase promotionToken => ref _promotionToken;
-		public readonly bool demotionable = false;
-		public readonly int demotionTokenCode = 0;
-		private TokenBase? _demotionToken = null;
-		public ref readonly TokenBase demotionToken => ref _demotionToken;
-		public readonly int demotionTokenAmount = 0;
-		public readonly float hpValueWhenRemove = 0;
-		public readonly float apValueWhenRemove = 0;
-		public readonly float sanValueWhenRemove = 0;
-		public readonly bool damageWhenRemove = false;
-		public readonly float damageValueWhenRemove = 0;
-		public readonly int damageTypeWhenRemove = 0;
+
+		public readonly TokenInfo promotionToken;
+		public readonly TokenInfo demotionToken;
+
+		public readonly float hpValueWhenRemove;
+		public readonly float apValueWhenRemove;
+		public readonly float sanValueWhenRemove;
+		public readonly bool damageWhenRemove;
+		public readonly float damageValueWhenRemove;
+		public readonly int damageTypeWhenRemove;
 		public readonly int addStatsCode;
 		private StatsBase? _addStats = null;
 		public ref readonly StatsBase addStats => ref _addStats;
@@ -56,11 +51,12 @@ namespace OnTheRecord.BasicComponent
 			removeSituation1 = int.Parse(values[7]);
 			removeSituation2 = int.Parse(values[8]);
 			removeSituation3 = int.Parse(values[9]);
-			promotionable = int.Parse(values[10]) == 1;
-			promotionTokenCode = int.Parse(values[11]);
-			demotionable = int.Parse(values[12]) == 1;
-			demotionTokenCode = int.Parse(values[13]);
-			demotionTokenAmount = int.Parse(values[14]);
+
+			// 토큰 코드, 승급시 개수 1 고정, targetCode로 승급 여부 판단
+			promotionToken = new TokenInfo(int.Parse(values[11], 1, int.Parse(values[10])));
+			// 토큰 코드, 강등시 개수, targetCode로 강등 여부 판단
+			demotionToken = new TokenInfo(int.Parse(values[13], values[14], int.Parse(values[12]));
+
 			hpValueWhenRemove = float.Parse(values[15]);
 			apValueWhenRemove = float.Parse(values[16]);
 			sanValueWhenRemove = float.Parse(values[17]);
@@ -85,16 +81,6 @@ namespace OnTheRecord.BasicComponent
 				return this._tokenCode.CompareTo(other._tokenCode);
 			else
 				throw new ArgumentException("Object is not a TokenBase");
-		}
-
-		public void SetPromotionToken(TokenBase? token)
-		{
-			_promotionToken = token;
-		}
-
-		public void SetDemotionToken(TokenBase? token)
-		{
-			_demotionToken = token;
 		}
 
 		public void SetAddStats(StatsBase? stats)

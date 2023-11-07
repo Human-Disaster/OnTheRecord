@@ -17,18 +17,23 @@ namespace OnTheRecord.BasicComponent
 {
 	class OnMemoryTable
 	{
-		private List<StatsBase> _StatsBaseList;
-		private List<TokenBase> _TokenBaseList;
-		private static OnMemoryTable? _Instance = null;
-		private static readonly object _Lock = new object();
+		private List<StatsBase> _statsBaseList;
+		private List<TokenBase> _tokenBaseList;
+		private List<SkillBase> _skillBaseList;
+		private List<ItemBase> _itemBaseList;
+
+		private List<TileConditionBase> _tileConditionBaseList;
+
+		private static OnMemoryTable? _instance = null;
+		private static readonly object _lock = new object();
 		private static string _csvWordSplit = @",(?=(?:[^""]*""[^""]*"")*(?![^""]*""))";
 		private static string _csvLineSplit = @"\r\n|\n\r|\n|\r";
 		private OnMemoryTable()
 		{
 			string csvText = ReadFile("파일 경로.csv");
 			string[] data = Regex.Split(csvText, _csvWordSplit);
-			_StatsBaseList = new List<StatsBase>(int.Parse(data[0]));
-			_TokenBaseList = new List<TokenBase>(int.Parse(data[1]));
+			_statsBaseList = new List<StatsBase>(int.Parse(data[0]));
+			_tokenBaseList = new List<TokenBase>(int.Parse(data[1]));
 			// 각각의 BaseList 도 마찬가지로 초기화
 			MakeStatsBaseList();
 			MakeTokenBaseList();
@@ -40,8 +45,8 @@ namespace OnTheRecord.BasicComponent
 			string csvText = ReadFile("파일 경로.csv");
 			var lines = Regex.Split(csvText, _csvLineSplit);
 			for (int i = 0; i < lines.Length; i++)
-				_StatsBaseList.Add(new StatsBase(lines[i]));
-			_StatsBaseList.Sort();
+				_statsBaseList.Add(new StatsBase(lines[i]));
+			_statsBaseList.Sort();
 		}
 
 		private void MakeTokenBaseList()
@@ -49,26 +54,26 @@ namespace OnTheRecord.BasicComponent
 			string csvText = ReadFile("파일 경로.csv");
 			var lines = Regex.Split(csvText, _csvLineSplit);
 			for (int i = 0; i < lines.Length; i++)
-				_TokenBaseList.Add(new TokenBase(lines[i]));
-			_TokenBaseList.Sort();
-			foreach(TokenBase TB in _TokenBaseList)
+				_tokenBaseList.Add(new TokenBase(lines[i]));
+			_tokenBaseList.Sort();
+			foreach(TokenBase tb in _tokenBaseList)
 			{
-				if (TB.promotionable)
-					TB.SetPromotionToken(GetTokenBase(TB.promotionTokenCode));
-				if (TB.demotionable)
-					TB.SetDemotionToken(GetTokenBase(TB.demotionTokenCode));
-				TB.SetAddStats(GetStatsBase(TB.addStatsCode));
-				TB.SetMulStats(GetStatsBase(TB.mulStatsCode));
+				if (tb.promotionToken.targetCode != 0)
+					tb.promotionToken.SetToken(GetTokenBase(tb.promotionToken._tokenCode));
+				if (tb.demotionToken.targetCode != 0)
+					tb.demotionToken.SetToken(GetTokenBase(tb.demotionToken._tokenCode));
+				tb.SetAddStats(GetStatsBase(tb.addStatsCode));
+				tb.SetMulStats(GetStatsBase(tb.mulStatsCode));
 			}
 		}
 
 		public StatsBase GetStatsBase(int statsCode)
 		{
-			return _StatsBaseList[_StatsBaseList.BinarySearch(new StatsBase(statsCode))];
+			return _statsBaseList[_statsBaseList.BinarySearch(new StatsBase(statsCode))];
 		}
 		public TokenBase GetTokenBase(int tokenCode)
 		{
-			return _TokenBaseList[_TokenBaseList.BinarySearch(new TokenBase(tokenCode))];
+			return _tokenBaseList[_tokenBaseList.BinarySearch(new TokenBase(tokenCode))];
 		}
 
 #if SERVER
@@ -79,17 +84,17 @@ namespace OnTheRecord.BasicComponent
 #endif
 		public static OnMemoryTable Instance()
 		{
-			if (_Instance == null)
+			if (_instance == null)
 			{
-				lock (_Lock)
+				lock (_lock)
 				{
-					if (_Instance == null)
+					if (_instance == null)
 					{
-						_Instance = new OnMemoryTable();
+						_instance = new OnMemoryTable();
 					}
 				}
 			}
-			return _Instance;
+			return _instance;
 		}
 	}
 }
