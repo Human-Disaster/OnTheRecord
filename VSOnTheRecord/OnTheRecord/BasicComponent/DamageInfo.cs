@@ -14,7 +14,7 @@ namespace OnTheRecord.BasicComponent
 
 		public DamageInfo(bool damageWhether, int damageValue, int damageType)
 		{
-			this.damageWhether = true;
+			this.damageWhether = damageWhether;
 			this.damageValue = damageValue;
 			this.damageType = damageType;
 		}

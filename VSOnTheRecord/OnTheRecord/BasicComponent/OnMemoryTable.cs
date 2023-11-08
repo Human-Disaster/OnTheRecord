@@ -19,10 +19,10 @@ namespace OnTheRecord.BasicComponent
 	{
 		private List<StatsBase> _statsBaseList;
 		private List<TokenBase> _tokenBaseList;
-		private List<SkillBase> _skillBaseList;
+		private List<TileConditionBase> _tileConditionBaseList;
+		private List<ActiveSkillBase> _activeSkillBaseList;
 		private List<ItemBase> _itemBaseList;
 
-		private List<TileConditionBase> _tileConditionBaseList;
 
 		private static OnMemoryTable? _instance = null;
 		private static readonly object _lock = new object();
@@ -34,6 +34,8 @@ namespace OnTheRecord.BasicComponent
 			string[] data = Regex.Split(csvText, _csvWordSplit);
 			_statsBaseList = new List<StatsBase>(int.Parse(data[0]));
 			_tokenBaseList = new List<TokenBase>(int.Parse(data[1]));
+			_tileConditionBaseList = new List<TileConditionBase>(int.Parse(data[2]));
+			_activeSkillBaseList = new List<ActiveSkillBase>(int.Parse(data[3]));
 			// 각각의 BaseList 도 마찬가지로 초기화
 			MakeStatsBaseList();
 			MakeTokenBaseList();
@@ -67,6 +69,47 @@ namespace OnTheRecord.BasicComponent
 			}
 		}
 
+		private void MakeTileConditionBaseList()
+		{
+			string csvText = ReadFile("파일 경로.csv");
+			var lines = Regex.Split(csvText, _csvLineSplit);
+			for (int i = 0; i < lines.Length; i++)
+				_tileConditionBaseList.Add(new TileConditionBase(lines[i]));
+			_tileConditionBaseList.Sort();
+			foreach(TileConditionBase tcb in _tileConditionBaseList)
+			{
+				//todo
+			}
+		}
+
+		private void MakeActiveSkillList()
+		{
+			string csvText = ReadFile("파일 경로.csv");
+			var lines = Regex.Split(csvText, _csvLineSplit);
+			for (int i = 0; i < lines.Length; i++)
+				_activeSkillBaseList.Add(new ActiveSkillBase(lines[i]));
+			_activeSkillBaseList.Sort();
+			foreach(ActiveSkillBase asb in _activeSkillBaseList)
+			{
+				if (asb.grantToken1.targetCode != 0)
+					asb.grantToken1.SetToken(GetTokenBase(asb.grantToken1._tokenCode));
+				if (asb.grantToken2.targetCode != 0)
+					asb.grantToken2.SetToken(GetTokenBase(asb.grantToken2._tokenCode));
+				if (asb.grantToken3.targetCode != 0)
+					asb.grantToken3.SetToken(GetTokenBase(asb.grantToken3._tokenCode));	
+				if (asb.removeToken1.targetCode != 0)
+					asb.removeToken1.SetToken(GetTokenBase(asb.removeToken1._tokenCode));
+				if (asb.removeToken2.targetCode != 0)
+					asb.removeToken2.SetToken(GetTokenBase(asb.removeToken2._tokenCode));
+				if (asb.removeToken3.targetCode != 0)
+					asb.removeToken3.SetToken(GetTokenBase(asb.removeToken3._tokenCode));
+				if (asb.tileConditionCode != 0)
+					asb.SetTileCondition(GetTileConditionBase(asb.tileConditionCode));
+				asb.SetAddStats(GetStatsBase(asb.addStatsCode));
+				asb.SetMulStats(GetStatsBase(asb.mulStatsCode));
+			}
+		}
+
 		public StatsBase GetStatsBase(int statsCode)
 		{
 			return _statsBaseList[_statsBaseList.BinarySearch(new StatsBase(statsCode))];
@@ -74,6 +117,14 @@ namespace OnTheRecord.BasicComponent
 		public TokenBase GetTokenBase(int tokenCode)
 		{
 			return _tokenBaseList[_tokenBaseList.BinarySearch(new TokenBase(tokenCode))];
+		}
+		public TileConditionBase GetTileConditionBase(int tileConditionCode)
+		{
+			return _tileConditionBaseList[_tileConditionBaseList.BinarySearch(new TileConditionBase(tileConditionCode))];
+		}
+		public ActiveSkillBase GetActiveSkillBase(int activeSkillCode)
+		{
+			return _activeSkillBaseList[_activeSkillBaseList.BinarySearch(new ActiveSkillBase(activeSkillCode))];
 		}
 
 #if SERVER

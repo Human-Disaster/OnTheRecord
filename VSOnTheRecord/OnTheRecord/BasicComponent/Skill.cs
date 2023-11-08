@@ -14,24 +14,14 @@ namespace OnTheRecord.BasicComponent
 {
     class Skill
     {
-        // 스킬 자체가 가지고 있는 것들 (토큰X)
-
-
-        SkillArea effect_area;
+        //이건 필요한가?
     }
 
     class PassiveSkill : Skill
     {
-        //int stack_weight;
-        //int token_type;
-        //위 변수 둘을 같이 가지는 구조체 혹을 클래스의 배열로 만들어야됨
-
+        // need PassiveSkillBase
 
         // 스킬 자체가 가지고 있는 것들 (토큰X)
-        int passive_offtrggr;
-        int passive_ontrggr;
-        bool passive_alivable;
-        int passive_kind; // passive_on, passive_off 의 동작 방식을 결정해 줌 (즉발식, 단발식, 지속식, etc...)
         /*
         public void Passive_trggrcheck(Stituation stituation)
         {
@@ -51,20 +41,11 @@ namespace OnTheRecord.BasicComponent
 
     class ActiveSkill : Skill
     {
-        //int stack_weight;
-        //int token_type;
-        //위 변수 둘을 같이 가지는 구조체 혹을 클래스의 배열들로 만들어야됨
-        //이 위치에 miss, dog, normal list 만들것
-
         // 스킬 자체가 가지고 있는 것들 (토큰X)
-        int active_type;
-        bool tureflight;
-        float heal;
-        float sanity_heal;
-        float phys_dmg;
-        int elements; //타입 형식으로 쓸 것
-        float elements_dmg;
-        float sanity_dmg;
+        // 대부분 ActiveSkillBase에 들어가게 돼었으며 여기서 실질적으로 저장되야할 내용은 스킬 쿨타임, 이번턴의 남은 가용횟수 같은 것들
+        ActiveSkillBase skillBase;
+        int cooltime;
+        int availableCount;
 
         SkillArea activeeffect_area;
         SkillEffect hitactivablemove;

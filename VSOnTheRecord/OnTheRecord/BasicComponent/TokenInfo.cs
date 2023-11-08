@@ -10,7 +10,7 @@ namespace OnTheRecord.BasicComponent
 	{
 		public readonly int _tokenCode;
 		private TokenBase? _token = null;
-		public ref readonly TokenBase token => ref _token;
+		public ref readonly TokenBase? token => ref _token;
 		public readonly int tokenAmount;
 		public readonly int targetCode;
 
