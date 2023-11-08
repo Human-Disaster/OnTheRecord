@@ -7,11 +7,8 @@ using System.Text.RegularExpressions;
 
 namespace OnTheRecord.BasicComponent
 {
-	public class TileConditionBase : IComparable
+	public class TileConditionBase : Base
 	{
-		private static string _csvWordSplit = @",(?=(?:[^""]*""[^""]*"")*(?![^""]*""))";
-
-		private readonly int _tileConditionCode;
 		public readonly int tileConditionType;
 		public readonly int hpTurn;
 		public readonly int apTurn;
@@ -26,19 +23,9 @@ namespace OnTheRecord.BasicComponent
 
 		public TileConditionBase(string str)
 		{
-			var values = Regex.Split(str, _csvWordSplit);
+			String[] values = Parse(str);
+			_baseCode = int.Parse(values[0]);
 			//todo
-		}
-
-		public CompareTo(object? obj)
-		{
-			if (obj == null)
-				return 1;
-			TileConditionBase? otherTileConditionBase = obj as TileConditionBase;
-			if (otherTileConditionBase != null)
-				return _tileConditionCode.CompareTo(otherTileConditionBase._tileConditionCode);
-			else
-				throw new ArgumentException("Object is not a TileConditionBase");
 		}
 	}
 }

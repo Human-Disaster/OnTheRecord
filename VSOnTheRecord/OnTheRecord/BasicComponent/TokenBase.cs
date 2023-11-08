@@ -7,11 +7,8 @@ using System.Text.RegularExpressions;
 
 namespace OnTheRecord.BasicComponent
 {
-	public class TokenBase : IComparable
+	public class TokenBase : Base
 	{
-		private static string _csvWordSplit = @",(?=(?:[^""]*""[^""]*"")*(?![^""]*""))";
-
-		private readonly int _tokenCode;
 		public readonly int nameCode;
 		public readonly int tokenType;
 		public readonly bool unSeen;
@@ -33,15 +30,15 @@ namespace OnTheRecord.BasicComponent
 		public readonly int damageTypeWhenRemove;
 		public readonly int addStatsCode;
 		private StatsBase? _addStats = null;
-		public ref readonly StatsBase addStats => ref _addStats;
+		public ref readonly StatsBase? addStats => ref _addStats;
 		public readonly int mulStatsCode;
 		private StatsBase? _mulStats = null;
-		public ref readonly StatsBase mulStats => ref _mulStats;
+		public ref readonly StatsBase? mulStats => ref _mulStats;
 
 		public TokenBase(string str)
 		{
-			var values = Regex.Split(str, _csvWordSplit);
-			_tokenCode = int.Parse(values[0]);
+			String[] values = Parse(str);
+			_baseCode = int.Parse(values[0]);
 			nameCode = int.Parse(values[1]);
 			tokenType = int.Parse(values[2]);
 			unSeen = int.Parse(values[3]) == 1;
@@ -65,22 +62,6 @@ namespace OnTheRecord.BasicComponent
 			damageTypeWhenRemove = int.Parse(values[20]);
 			addStatsCode = int.Parse(values[21]);
 			mulStatsCode = int.Parse(values[22]);
-		}
-
-		public TokenBase(int code)
-		{
-			_tokenCode = code;
-		}
-
-		public int CompareTo(object? obj)
-		{
-			if (obj == null)
-				return 1;
-			TokenBase? other = obj as TokenBase;
-			if (other is not null)
-				return this._tokenCode.CompareTo(other._tokenCode);
-			else
-				throw new ArgumentException("Object is not a TokenBase");
 		}
 
 		public void SetAddStats(StatsBase? stats)

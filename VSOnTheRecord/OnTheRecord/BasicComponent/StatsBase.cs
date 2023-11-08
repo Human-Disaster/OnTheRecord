@@ -16,11 +16,8 @@ using System.Text.RegularExpressions;
  */
 namespace OnTheRecord.BasicComponent
 {
-	public class StatsBase : IComparable
+	public class StatsBase : Base
 	{
-		private static string _csvWordSplit = @",(?=(?:[^""]*""[^""]*"")*(?![^""]*""))";
-
-		private readonly int _statsCode;
 		public readonly float hpMaxS = 0;
 		public readonly float hpRS = 0;
 		public readonly float sanMaxS = 0;
@@ -45,10 +42,10 @@ namespace OnTheRecord.BasicComponent
 		public readonly float resAcidS = 0;
 
 
-		public StatsBase(string str)
+		public StatsBase(String str)
 		{
-			var values = Regex.Split(str, _csvWordSplit);
-			_statsCode = int.Parse(values[0]);
+			String[] values = Parse(str);
+			_baseCode = int.Parse(values[0]);
 			hpMaxS = float.Parse(values[1]);
 			hpRS = float.Parse(values[2]);
 			sanMaxS = float.Parse(values[3]);
@@ -73,20 +70,31 @@ namespace OnTheRecord.BasicComponent
 			resAcidS = float.Parse(values[22]);
 		}
 
-		public StatsBase(int code)
+		public StatsBase(int code, int init)
 		{
-			_statsCode = code;
-		}
-
-		public int CompareTo(object? obj)
-		{
-			if (obj == null)
-				return 1;
-			StatsBase? other = obj as StatsBase;
-			if (other != null)
-				return this._statsCode.CompareTo(other._statsCode);
-			else
-				throw new ArgumentException("Object is not a StatsBase");
+			_baseCode = code;
+			hpMaxS = init;
+			hpRS = init;
+			sanMaxS = init;
+			sanRS = init;
+			apMaxS = init;
+			apRS = init;
+			spdS = init;
+			accS = init;
+			dogS = init;
+			defTS = init;
+			defRS = init;
+			atkS = init;
+			critS = init;
+			critDS = init;
+			critRS = init;
+			resPhysicS = init;
+			resFireS = init;
+			resIceS = init;
+			resLightningS = init;
+			resPoisonS = init;
+			resDiseaseS = init;
+			resAcidS = init;
 		}
 
 		public static CalStats operator +(StatsBase a, StatsBase b)
