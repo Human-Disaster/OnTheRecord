@@ -17,11 +17,11 @@ namespace OnTheRecord.BasicComponent
 {
 	class OnMemoryTable
 	{
-		private List<StatsBase> _statsBaseList;
-		private List<TokenBase> _tokenBaseList;
-		private List<TileConditionBase> _tileConditionBaseList;
-		private List<ActiveSkillBase> _activeSkillBaseList;
-		private List<ItemBase> _itemBaseList;
+		private List<Base> _statsBaseList;
+		private List<Base> _tokenBaseList;
+		private List<Base> _tileConditionBaseList;
+		private List<Base> _activeSkillBaseList;
+		private List<Base> _itemBaseList;
 
 
 		private static OnMemoryTable? _instance = null;
@@ -32,13 +32,15 @@ namespace OnTheRecord.BasicComponent
 		{
 			string csvText = ReadFile("파일 경로.csv");
 			string[] data = Regex.Split(csvText, _csvWordSplit);
-			_statsBaseList = new List<StatsBase>(int.Parse(data[0]));
-			_tokenBaseList = new List<TokenBase>(int.Parse(data[1]));
-			_tileConditionBaseList = new List<TileConditionBase>(int.Parse(data[2]));
-			_activeSkillBaseList = new List<ActiveSkillBase>(int.Parse(data[3]));
+			_statsBaseList = new List<Base>(int.Parse(data[0]));
+			_tokenBaseList = new List<Base>(int.Parse(data[1]));
+			_tileConditionBaseList = new List<Base>(int.Parse(data[2]));
+			_activeSkillBaseList = new List<Base>(int.Parse(data[3]));
 			// 각각의 BaseList 도 마찬가지로 초기화
 			MakeStatsBaseList();
 			MakeTokenBaseList();
+			MakeTileConditionBaseList();
+			MakeActiveSkillList();
 			// 각각의 BaseList 도 마찬가지로 구현
 		}
 
@@ -112,19 +114,23 @@ namespace OnTheRecord.BasicComponent
 
 		public StatsBase GetStatsBase(int statsCode)
 		{
-			return _statsBaseList[_statsBaseList.BinarySearch(new StatsBase(statsCode))];
+			return (StatsBase)_statsBaseList[_statsBaseList.BinarySearch(new Base(statsCode))];
 		}
 		public TokenBase GetTokenBase(int tokenCode)
 		{
-			return _tokenBaseList[_tokenBaseList.BinarySearch(new TokenBase(tokenCode))];
+			return (TokenBase)_tokenBaseList[_tokenBaseList.BinarySearch(new Base(tokenCode))];
 		}
 		public TileConditionBase GetTileConditionBase(int tileConditionCode)
 		{
-			return _tileConditionBaseList[_tileConditionBaseList.BinarySearch(new TileConditionBase(tileConditionCode))];
+			return (TileConditionBase)_tileConditionBaseList[_tileConditionBaseList.BinarySearch(new Base(tileConditionCode))];
 		}
 		public ActiveSkillBase GetActiveSkillBase(int activeSkillCode)
 		{
-			return _activeSkillBaseList[_activeSkillBaseList.BinarySearch(new ActiveSkillBase(activeSkillCode))];
+			return (ActiveSkillBase)_activeSkillBaseList[_activeSkillBaseList.BinarySearch(new Base(activeSkillCode))];
+		}
+		public ItemBase GetItemBase(int itemCode)
+		{
+			return (ItemBase)_itemBaseList[_itemBaseList.BinarySearch(new Base(itemCode))];
 		}
 
 #if SERVER

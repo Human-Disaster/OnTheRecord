@@ -55,10 +55,9 @@ namespace OnTheRecord.BasicComponent
 		private StatsBase? _mulStats = null;
 		public ref readonly StatsBase? mulStats => ref _mulStats;
 
-		public ActiveSkillBase(string str)
+		public ActiveSkillBase(string str) : base(str)
 		{
-			String[] values = Parse(str);
-			_baseCode = int.Parse(values[0]);
+			string[] values = Parse(str);
 			nameCode = int.Parse(values[1]);
 			preProcessCode = int.Parse(values[2]);
 			postProcessCode = int.Parse(values[3]);

@@ -42,10 +42,9 @@ namespace OnTheRecord.BasicComponent
 		public readonly float resAcidS = 0;
 
 
-		public StatsBase(String str)
+		public StatsBase(string str) : base(str)
 		{
-			String[] values = Parse(str);
-			_baseCode = int.Parse(values[0]);
+			string[] values = Parse(str);
 			hpMaxS = float.Parse(values[1]);
 			hpRS = float.Parse(values[2]);
 			sanMaxS = float.Parse(values[3]);
@@ -70,9 +69,8 @@ namespace OnTheRecord.BasicComponent
 			resAcidS = float.Parse(values[22]);
 		}
 
-		public StatsBase(int code, int init)
+		public StatsBase(int code, int init) : base(code)
 		{
-			_baseCode = code;
 			hpMaxS = init;
 			hpRS = init;
 			sanMaxS = init;

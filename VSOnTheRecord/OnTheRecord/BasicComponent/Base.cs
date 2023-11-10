@@ -13,12 +13,23 @@ namespace OnTheRecord.BasicComponent
 
 		protected readonly int _baseCode;
 
-		protected string[] Parse(String str)
+		public Base(int baseCode)
+		{
+			_baseCode = baseCode;
+		}
+
+		protected Base(string str)
+		{
+			int commaIndex = str.IndexOf(',');
+			_baseCode = int.Parse(str.Substring(0, commaIndex));
+		}
+
+		protected string[] Parse(string str)
 		{
 			return Regex.Split(str, _csvWordSplit);
 		}
 
-		public CompareTo(object? obj)
+		public int CompareTo(object? obj)
 		{
 			if (obj == null)
 				return 1;

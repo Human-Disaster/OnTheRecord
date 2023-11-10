@@ -35,10 +35,9 @@ namespace OnTheRecord.BasicComponent
 		private StatsBase? _mulStats = null;
 		public ref readonly StatsBase? mulStats => ref _mulStats;
 
-		public TokenBase(string str)
+		public TokenBase(string str) : base(str)
 		{
-			String[] values = Parse(str);
-			_baseCode = int.Parse(values[0]);
+			string[] values = Parse(str);
 			nameCode = int.Parse(values[1]);
 			tokenType = int.Parse(values[2]);
 			unSeen = int.Parse(values[3]) == 1;
@@ -50,9 +49,9 @@ namespace OnTheRecord.BasicComponent
 			removeSituation3 = int.Parse(values[9]);
 
 			// 토큰 코드, 승급시 개수 1 고정, targetCode로 승급 여부 판단
-			promotionToken = new TokenInfo(int.Parse(values[11], 1, int.Parse(values[10])));
+			promotionToken = new TokenInfo(int.Parse(values[11]), 1, int.Parse(values[10]));
 			// 토큰 코드, 강등시 개수, targetCode로 강등 여부 판단
-			demotionToken = new TokenInfo(int.Parse(values[13], values[14], int.Parse(values[12]));
+			demotionToken = new TokenInfo(int.Parse(values[13]), int.Parse(values[14]), int.Parse(values[12]));
 
 			hpValueWhenRemove = float.Parse(values[15]);
 			apValueWhenRemove = float.Parse(values[16]);
@@ -95,7 +94,7 @@ namespace OnTheRecord.BasicComponent
 			TokenBase? other = obj as TokenBase;
 			if (other is null)
 				return false;
-			return (this._tokenCode == other._tokenCode);
+			return (this._baseCode == other._baseCode);
 		}
 	}
 }
