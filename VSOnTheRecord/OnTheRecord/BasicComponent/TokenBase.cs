@@ -34,33 +34,34 @@ namespace OnTheRecord.BasicComponent
 		public readonly int mulStatsCode;
 		private StatsBase? _mulStats = null;
 		public ref readonly StatsBase? mulStats => ref _mulStats;
+		public readonly int secondMulStatsCode;
 
 		public TokenBase(string str) : base(str)
 		{
 			string[] values = Parse(str);
-			nameCode = int.Parse(values[1]);
-			tokenType = int.Parse(values[2]);
-			unSeen = int.Parse(values[3]) == 1;
-			special = int.Parse(values[4]);
-			effectOverlappable = int.Parse(values[5]) == 1;
-			overlapMax = int.Parse(values[6]);
-			removeSituation1 = int.Parse(values[7]);
-			removeSituation2 = int.Parse(values[8]);
-			removeSituation3 = int.Parse(values[9]);
+			nameCode = base.BaseIntParse(values[1]);
+			tokenType = base.BaseIntParse(values[2]);
+			unSeen = base.BaseIntParse(values[3]) == 1;
+			special = base.BaseIntParse(values[4]);
+			effectOverlappable = base.BaseIntParse(values[5]) == 1;
+			overlapMax = base.BaseIntParse(values[6]);
+			removeSituation1 = base.BaseIntParse(values[7]);
+			removeSituation2 = base.BaseIntParse(values[8]);
+			removeSituation3 = base.BaseIntParse(values[9]);
 
 			// 토큰 코드, 승급시 개수 1 고정, targetCode로 승급 여부 판단
-			promotionToken = new TokenInfo(int.Parse(values[11]), 1, int.Parse(values[10]));
+			promotionToken = new TokenInfo(base.BaseIntParse(values[11]), 1, base.BaseIntParse(values[10]));
 			// 토큰 코드, 강등시 개수, targetCode로 강등 여부 판단
-			demotionToken = new TokenInfo(int.Parse(values[13]), int.Parse(values[14]), int.Parse(values[12]));
+			demotionToken = new TokenInfo(base.BaseIntParse(values[13]), base.BaseIntParse(values[14]), base.BaseIntParse(values[12]));
 
-			hpValueWhenRemove = float.Parse(values[15]);
-			apValueWhenRemove = float.Parse(values[16]);
-			sanValueWhenRemove = float.Parse(values[17]);
-			damageWhenRemove = int.Parse(values[18]) == 1;
-			damageValueWhenRemove = float.Parse(values[19]);
-			damageTypeWhenRemove = int.Parse(values[20]);
-			addStatsCode = int.Parse(values[21]);
-			mulStatsCode = int.Parse(values[22]);
+			hpValueWhenRemove = base.BaseFloatParse(values[15]);
+			apValueWhenRemove = base.BaseFloatParse(values[16]);
+			sanValueWhenRemove = base.BaseFloatParse(values[17]);
+			damageWhenRemove = base.BaseIntParse(values[18]) == 1;
+			damageValueWhenRemove = base.BaseFloatParse(values[19]);
+			damageTypeWhenRemove = base.BaseIntParse(values[20]);
+			addStatsCode = base.BaseIntParse(values[21]);
+			mulStatsCode = base.BaseIntParse(values[22]);
 		}
 
 		public void SetAddStats(StatsBase? stats)

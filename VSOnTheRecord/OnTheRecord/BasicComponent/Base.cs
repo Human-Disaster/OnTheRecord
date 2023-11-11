@@ -24,6 +24,24 @@ namespace OnTheRecord.BasicComponent
 			_baseCode = int.Parse(str.Substring(0, commaIndex));
 		}
 
+		protected int BaseIntParse(string str)
+		{
+			int result;
+			if (int.TryParse(str, out result))
+				return result;
+			else
+				return 0;
+		}
+
+		protected float BaseFloatParse(string str)
+		{
+			float result;
+			if (float.TryParse(str, out result))
+				return result;
+			else
+				return 0;
+		}
+
 		protected string[] Parse(string str)
 		{
 			return Regex.Split(str, _csvWordSplit);

@@ -15,16 +15,14 @@ namespace OnTheRecord.BasicComponent
 		public readonly int sanTurn;
 		public readonly TokenInfo grantToken;
 
-		public TileConditionBase(int tileConditionCode)
+		public TileConditionBase(int tileConditionCode) : base(tileConditionCode)
 		{
-			_tileConditionCode = tileConditionCode;
 			//todo
 		}
 
-		public TileConditionBase(string str)
+		public TileConditionBase(string str) : base(str)
 		{
-			String[] values = Parse(str);
-			_baseCode = int.Parse(values[0]);
+			string[] values = Parse(str);
 			//todo
 		}
 	}

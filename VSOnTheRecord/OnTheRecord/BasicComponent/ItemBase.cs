@@ -14,19 +14,31 @@ namespace OnTheRecord.BasicComponent
 		public readonly int itemType => _baseCode / 100000 % 10;
 		public readonly int stackMax;
 		public readonly int weight;
-		private readonly int _consumableCode;
+		public readonly int consumableCode;
 		private ConsumableBase? _consumable = null;
 		public ref readonly ConsumableBase? consumable => ref _consumable;
-		private readonly int _equipmentCode;
+		public readonly int equipmentCode;
 		private EquipmentBase? _equipment = null;
 		public ref readonly EquipmentBase? equipment => ref _equipment;
 
 
 		public ItemBase(string str) : base(str)
 		{
-			var values = base.Parse(str);
-			stackMax = int.Parse(values[1]);
-			weight = int.Parse(values[2]);
+			string[] values = base.Parse(str);
+			stackMax = base.BaseIntParse(values[1]);
+			weight = base.BaseIntParse(values[2]);
+			consumableCode = base.BaseIntParse(values[3]);
+			equipmentCode = base.BaseIntParse(values[4]);
+		}
+
+		public void SetConsumable(ConsumableBase consumable)
+		{
+			_consumable = consumable;
+		}
+
+		public void SetEquipment(EquipmentBase equipment)
+		{
+			_equipment = equipment;
 		}
 	}
 }

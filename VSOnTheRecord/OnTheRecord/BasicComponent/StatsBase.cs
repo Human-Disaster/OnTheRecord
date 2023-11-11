@@ -45,28 +45,28 @@ namespace OnTheRecord.BasicComponent
 		public StatsBase(string str) : base(str)
 		{
 			string[] values = Parse(str);
-			hpMaxS = float.Parse(values[1]);
-			hpRS = float.Parse(values[2]);
-			sanMaxS = float.Parse(values[3]);
-			sanRS = float.Parse(values[4]);
-			apMaxS = float.Parse(values[5]);
-			apRS = float.Parse(values[6]);
-			spdS = float.Parse(values[7]);
-			accS = float.Parse(values[8]);
-			dogS = float.Parse(values[9]);
-			defTS = float.Parse(values[10]);
-			defRS = float.Parse(values[11]);
-			atkS = float.Parse(values[12]);
-			critS = float.Parse(values[13]);
-			critDS = float.Parse(values[14]);
-			critRS = float.Parse(values[15]);
-			resPhysicS = float.Parse(values[16]);
-			resFireS = float.Parse(values[17]);
-			resIceS = float.Parse(values[18]);
-			resLightningS = float.Parse(values[19]);
-			resPoisonS = float.Parse(values[20]);
-			resDiseaseS = float.Parse(values[21]);
-			resAcidS = float.Parse(values[22]);
+			hpMaxS = base.BaseFloatParse(values[1]);
+			hpRS = base.BaseFloatParse(values[2]);
+			sanMaxS = base.BaseFloatParse(values[3]);
+			sanRS = base.BaseFloatParse(values[4]);
+			apMaxS = base.BaseFloatParse(values[5]);
+			apRS = base.BaseFloatParse(values[6]);
+			spdS = base.BaseFloatParse(values[7]);
+			accS = base.BaseFloatParse(values[8]);
+			dogS = base.BaseFloatParse(values[9]);
+			defTS = base.BaseFloatParse(values[10]);
+			defRS = base.BaseFloatParse(values[11]);
+			atkS = base.BaseFloatParse(values[12]);
+			critS = base.BaseFloatParse(values[13]);
+			critDS = base.BaseFloatParse(values[14]);
+			critRS = base.BaseFloatParse(values[15]);
+			resPhysicS = base.BaseFloatParse(values[16]);
+			resFireS = base.BaseFloatParse(values[17]);
+			resIceS = base.BaseFloatParse(values[18]);
+			resLightningS = base.BaseFloatParse(values[19]);
+			resPoisonS = base.BaseFloatParse(values[20]);
+			resDiseaseS = base.BaseFloatParse(values[21]);
+			resAcidS = base.BaseFloatParse(values[22]);
 		}
 
 		public StatsBase(int code, int init) : base(code)
