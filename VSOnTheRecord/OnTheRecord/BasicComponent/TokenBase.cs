@@ -35,6 +35,8 @@ namespace OnTheRecord.BasicComponent
 		private StatsBase? _mulStats = null;
 		public ref readonly StatsBase? mulStats => ref _mulStats;
 		public readonly int secondMulStatsCode;
+		private StatsBase? _secondMulStats = null;
+		public ref readonly StatsBase? secondMulStats => ref _secondMulStats;
 
 		public TokenBase(string str) : base(str)
 		{
@@ -62,6 +64,7 @@ namespace OnTheRecord.BasicComponent
 			damageTypeWhenRemove = base.BaseIntParse(values[20]);
 			addStatsCode = base.BaseIntParse(values[21]);
 			mulStatsCode = base.BaseIntParse(values[22]);
+			secondMulStatsCode = base.BaseIntParse(values[23]);
 		}
 
 		public void SetAddStats(StatsBase? stats)
@@ -72,6 +75,11 @@ namespace OnTheRecord.BasicComponent
 		public void SetMulStats(StatsBase? stats)
 		{
 			_mulStats = stats;
+		}
+
+		public void SetSecondMulStats(StatsBase? stats)
+		{
+			_secondMulStats = stats;
 		}
 
 		public static bool operator ==(TokenBase a, TokenBase b)

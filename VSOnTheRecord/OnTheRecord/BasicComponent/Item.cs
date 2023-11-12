@@ -12,7 +12,6 @@ using ExternalStaticReference;
  * 
  * 속성
  * itemBase
- *	itemType		EnumBox의 ItemType에 포함되는 녀석으로만 처리할 수 있어야할 것
  *	itemCode		아이템 종류별 고유 코드. 같은 코드를 가지면 같은 아이템. 이 코드로 아이템 구분
  *	weight			아이템의 무게.
  * stack		같은 아이템이 얼마나 쌓였는가.
@@ -25,9 +24,10 @@ using ExternalStaticReference;
  * 
  * 메소드
  * Equals, CompareTo
- *		다른 Item과의 비교는 itemCode를 이용
- * void AddStack(int stack)
+ *		다른 Item과의 비교는 itemBase를 이용
+ * int AddStack(int stack)
  *		입력받은만큼 스택 증가
+ *		스택이 maxStack을 넘어가면 maxStack까지만 증가하고 나머지는 반환
  * bool SubStack(int stack)
  *		입력받은만큼 스택 감소
  * bool MoveStack(Item source)
@@ -42,30 +42,75 @@ using ExternalStaticReference;
  * long TotalWeight()
  *		weight * stack
  * 
- * 2023.10.01
+ * 2023.11.12
  */
 
 namespace OnTheRecord.BasicComponent
 {
-	class Item : IComparable<Item>
+	public class Item : IComparable
 	{
-		readonly ItemType itemType = ItemType.None;
-		readonly int itemCode = 0;
-		readonly int weight = 0;
-		private int stack = 0;
+		readonly public ItemBase itemBase;
+		private int _stack;
+		public readonly int stack => _stack;
 
-		public bool Equals(Item? other)
+		public Item(ItemBase ib)
 		{
-			if (other == null)
-				return false;
-			return (this.itemCode == other.itemCode);
+			this.itemBase = ib;
+			_stack = 1;
 		}
 
-		public int CompareTo(Item? other)
+		public Item(ItemBase ib, int stack)
 		{
-			if (other == null)
-				return 0;
-			return (this.itemCode - other.itemCode);
+			this.itemBase = ib;
+			this._stack = stack;
+		}
+
+		public Item(Item source)
+		{
+			this.itemBase = source.itemBase;
+			_stack = source._stack;
+		}
+
+		public Item(Item source, int stack)
+		{
+			this.itemBase = source.itemBase;
+			this._stack = stack;
+		}
+
+		public Item(int itemCode)
+		{
+			this.itemBase = OnMemoryTable.Instance().GetItemBase(itemCode);
+			_stack = 1;
+		}
+
+		public Item(int itemCode, int stack)
+		{
+			this.itemBase = OnMemoryTable.Instance().GetItemBase(itemCode);
+			this._stack = stack;
+		}
+
+		override public bool Equals(object? obj)
+		{
+			if (obj == null)
+				return false;
+			Item? otherItem = obj as Item;
+			if (otherItem is not null)
+				return this.itemBase.Equals(otherItem.itemBase);
+			ItemBase? otherItemBase = obj as ItemBase;
+			if (otherItemBase is not null)
+				return this.itemBase.Equals(otherItemBase);
+			else
+				return false;
+		}
+
+		public int CompareTo(object? obj)
+		{
+			if (obj == null) return 1;
+			Item? otherItem = obj as Item;
+			if (otherItem is not null)
+				return this.itemBase.CompareTo(otherItem.itemBase);
+			else
+				throw new ArgumentException("Object is not a Item");
 		}
 
 		public static bool operator ==(Item a, Item b)
@@ -74,84 +119,71 @@ namespace OnTheRecord.BasicComponent
 				return Object.Equals(a, b);
 			return a.Equals(b);
 		}
-		public static bool operator != (Item a, Item b)
+		public static bool operator !=(Item a, Item b)
 		{
 			if (((object)a) == null || ((object)b) == null)
 				return !(Object.Equals(a, b));
 			return !(a.Equals(b));
 		}
 
-		Item(ItemType itemType, int itemCode, int weight)
+		public int AddStack(int stack)
 		{
-			this.itemType = itemType;
-			this.itemCode = itemCode;
-			this.weight = weight;
-			this.stack = 1;
+			this._stack += stack;
+			if (this._stack > itemBase.stackMax)
+			{
+				stack = this._stack - itemBase.stackMax;
+				this._stack = itemBase.stackMax;
+				return stack;
+			}
+			return 0;
 		}
 
-		Item(ItemType itemType, int itemCode, int weight, int stack)
+		public bool SubStack(int stack)
 		{
-			this.itemType = itemType;
-			this.itemCode = itemCode;
-			this.weight = weight;
-			this.stack = stack;
-		}
-
-		Item(Item source)
-		{
-			this.itemType = source.itemType;
-			this.itemCode = source.itemCode;
-			this.weight = source.weight;
-			this.stack = 1;
-		}
-
-		Item(Item source, int stack)
-		{
-			this.itemType = source.itemType;
-			this.itemCode = source.itemCode;
-			this.weight = source.weight;
-			this.stack = stack;
-		}
-
-		void AddStack(int stack)
-		{
-			this.stack += stack;
-		}
-
-		bool SubStack(int stack)
-		{
-			if (this.stack < stack)
+			if (this._stack < stack)
 				return false;
-			this.stack -= stack;
+			this._stack -= stack;
 			return true;
 		}
 
-		bool MoveStack(Item source)
+		public bool MoveStack(Item source)
 		{
 			if (this != source)
 				return false;
-			this.stack += source.stack;
-			source.stack = 0;
+			this._stack += source._stack;
+			if (this._stack > itemBase.stackMax)
+			{
+				source._stack = this._stack - itemBase.stackMax;
+				this._stack = itemBase.stackMax;
+				return true;
+			}
+			source._stack = 0;
 			return true;
 		}
 
-		bool MoveStack(Item source, int moveValue)
+		public bool MoveStack(Item source, int moveValue)
 		{
-			if (this != source || source.stack < moveValue)
+			if (this != source || source._stack < moveValue)
 				return false;
-			this.stack += source.stack;
-			source.stack = 0;
+			this._stack += moveValue;
+			source._stack -= moveValue;
+			if (this._stack > itemBase.stackMax)
+			{
+				source._stack += this._stack - itemBase.stackMax;
+				this._stack = itemBase.stackMax;
+				return true;
+			}
 			return true;
 		}
 
-		bool IsEmpty()
+		public bool IsEmpty()
 		{
-			return (this.stack == 0);
+			return (this._stack == 0);
 		}
 
-		long TotalWeight()
+		public long TotalWeight()
 		{
-			return ((long)this.weight * this.stack);
+			return ((long)this.itemBase.weight * this._stack);
 		}
 	}
 }

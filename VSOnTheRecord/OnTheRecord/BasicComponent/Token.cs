@@ -70,48 +70,4 @@ namespace OnTheRecord.BasicComponent
 			//todo
 		}
 	}
-
-	public class TokenList // 토큰 관련 함수 전부 여기 넣을것
-	{
-		// 특정 토큰들을 찾아서 리턴, 특정 토큰 추가, 제거, 토큰의 적용 그리고 앞의 함수들이 복합적으로 일어나는 함수들
-		private List<Token> _tokenList = new List<Token>();
-
-		public void Add(Token t)
-		{
-			int i = _tokenList.BinarySearch(t);
-			if (i < 0)
-				_tokenList.Insert(~i, t);
-			else
-				_tokenList[i].stack += t.stack;
-			if (t.tBase.overlapMax < _tokenList[i].stack)
-			{
-				_tokenList[i].stack %= (t.tBase.overlapMax + 1);
-				if (_tokenList[i].stack == 0)
-					_tokenList.RemoveAt(i);
-				this.Add(new Token(t.tBase.promotionToken, _tokenList[i].stack / (t.tBase.overlapMax + 1)));
-			}
-			_tokenList.Sort();
-		}
-
-		public void Add(TokenBase tb)
-		{
-			this.Add(new Token(tb));
-		}
-
-		public void Remove(Token t)
-		{
-			int i = _tokenList.BinarySearch(t);
-			if (i < 0)
-				return;
-			else
-			{
-				_tokenList[i].stack -= t.stack;
-				if (_tokenList[i].stack <= 0)
-					_tokenList.RemoveAt(i);
-			}
-		}
-
-		// 게임 로직에 따라 필요한 메소드들	추가할 것
-		// 
-	}
 }

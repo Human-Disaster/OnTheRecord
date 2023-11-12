@@ -49,7 +49,6 @@ namespace OnTheRecord.BasicComponent
 
         SkillArea activeeffect_area;
         SkillEffect hitactivablemove;
-        /*
         public void AtkRoll(/*스킬 오브젝트*/ Activable attacker, Activable defender)
         {
             if (/*flag 체크 ex (!skill.trueflight) &&*/ AccRoll(attacker))
@@ -144,7 +143,7 @@ namespace OnTheRecord.BasicComponent
         int movey;
     }
 
-    public class SkillList // 토큰  관련 함수 전부 여기 넣을것
+    public class SkillList
     {
         List<Skill> act_list = new List<Skill>();
         List<Skill> pas_list = new List<Skill>();

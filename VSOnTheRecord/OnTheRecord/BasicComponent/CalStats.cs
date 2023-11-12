@@ -89,6 +89,11 @@ namespace OnTheRecord.BasicComponent
 			this.resAcidS = statsBase.resAcidS;
 		}
 
+		public CalStats(int statsBaseCode)
+		{
+			this = OnMemoryTable.Instance().GetStatsBase(statsBaseCode);
+		}
+
 		public CalStats(
 			float hpMaxS,
 			float hpRS,
@@ -214,6 +219,32 @@ namespace OnTheRecord.BasicComponent
 				a.resDiseaseS * b.resDiseaseS,
 				a.resAcidS * b.resAcidS
 				);
+		public static CalStats operator *(CalStats a, int b)
+			=> new CalStats(
+				a.hpMaxS * b,
+				a.hpRS * b,
+				a.sanMaxS * b,
+				a.sanRS * b,
+				a.apMaxS * b,
+				a.apRS * b,
+				a.spdS * b,
+				a.accS * b,
+				a.dogS * b,
+				a.defTS * b,
+				a.defRS * b,
+				a.atkS * b,
+				a.critS * b,
+				a.critDS * b,
+				a.critRS * b,
+				a.resPhysicS * b,
+				a.resFireS * b,
+				a.resIceS * b,
+				a.resLightningS * b,
+				a.resPoisonS * b,
+				a.resDiseaseS * b,
+				a.resAcidS * b
+				);
+		public static CalStats operator *(int a, CalStats b) => b * a;
 		public static implicit operator CalStats(StatsBase a)
 			=> new CalStats(a);
 	}

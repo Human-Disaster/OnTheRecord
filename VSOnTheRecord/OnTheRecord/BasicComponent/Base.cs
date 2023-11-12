@@ -47,6 +47,13 @@ namespace OnTheRecord.BasicComponent
 			return Regex.Split(str, _csvWordSplit);
 		}
 
+		public bool Equals(Base? other)
+		{
+			if (other == null)
+				return false;
+			return _baseCode.Equals(other._baseCode);
+		}
+
 		public int CompareTo(object? obj)
 		{
 			if (obj == null)

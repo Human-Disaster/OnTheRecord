@@ -232,5 +232,32 @@ namespace OnTheRecord.BasicComponent
 				);
 		public static CalStats operator *(StatsBase a, CalStats b)
 			=> b * a;
+		public static CalStats operator *(StatsBase a, int b)
+			=> new CalStats(
+				b * a.hpMaxS,
+				b * a.hpRS,
+				b * a.sanMaxS,
+				b * a.sanRS,
+				b * a.apMaxS,
+				b * a.apRS,
+				b * a.spdS,
+				b * a.accS,
+				b * a.dogS,
+				b * a.defTS,
+				b * a.defRS,
+				b * a.atkS,
+				b * a.critS,
+				b * a.critDS,
+				b * a.critRS,
+				b * a.resPhysicS,
+				b * a.resFireS,
+				b * a.resIceS,
+				b * a.resLightningS,
+				b * a.resPoisonS,
+				b * a.resDiseaseS,
+				b * a.resAcidS
+				);
+		public static CalStats operator *(int a, StatsBase b)
+			=> b * a;
 	}
 }

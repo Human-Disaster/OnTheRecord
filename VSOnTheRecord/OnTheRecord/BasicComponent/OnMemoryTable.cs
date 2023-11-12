@@ -80,8 +80,12 @@ namespace OnTheRecord.BasicComponent
 					tb.promotionToken.SetToken(GetTokenBase(tb.promotionToken._tokenCode));
 				if (tb.demotionToken.targetCode != 0)
 					tb.demotionToken.SetToken(GetTokenBase(tb.demotionToken._tokenCode));
-				tb.SetAddStats(GetStatsBase(tb.addStatsCode));
-				tb.SetMulStats(GetStatsBase(tb.mulStatsCode));
+				if (tb.addStatsCode != 0)
+					tb.SetAddStats(GetStatsBase(tb.addStatsCode));
+				if (tb.mulStatsCode != 0)
+					tb.SetMulStats(GetStatsBase(tb.mulStatsCode));
+				if (tb.secondMulStatsCode != 0)
+					tb.SetSecondMulStats(GetStatsBase(tb.secondMulStatsCode));
 			}
 		}
 
@@ -121,8 +125,10 @@ namespace OnTheRecord.BasicComponent
 					asb.removeToken3.SetToken(GetTokenBase(asb.removeToken3._tokenCode));
 				if (asb.tileConditionCode != 0)
 					asb.SetTileCondition(GetTileConditionBase(asb.tileConditionCode));
-				asb.SetAddStats(GetStatsBase(asb.addStatsCode));
-				asb.SetMulStats(GetStatsBase(asb.mulStatsCode));
+				if (asb.addStatsCode != 0)
+					asb.SetAddStats(GetStatsBase(asb.addStatsCode));
+				if (asb.mulStatsCode != 0)
+					asb.SetMulStats(GetStatsBase(asb.mulStatsCode));
 			}
 		}
 
@@ -166,8 +172,10 @@ namespace OnTheRecord.BasicComponent
 			_equipmentBaseList.Sort();
 			foreach(EquipmentBase eb in _equipmentBaseList)
 			{
-				eb.SetAddStats(GetStatsBase(eb.addStatsCode));
-				eb.SetMulStats(GetStatsBase(eb.mulStatsCode));
+				if (eb.addStatsCode != 0)
+					eb.SetAddStats(GetStatsBase(eb.addStatsCode));
+				if (eb.mulStatsCode != 0)
+					eb.SetMulStats(GetStatsBase(eb.mulStatsCode));
 				if (eb.armsCode != 0)
 					eb.SetArms(GetArmBase(eb.armsCode));
 			}
