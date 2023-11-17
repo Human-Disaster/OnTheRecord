@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OnTheRecord.ExternalStaticReference;
 
 /*
  * finalStats 최종 스테이터스
@@ -27,12 +28,14 @@ namespace OnTheRecord.Entity
 
 		TokenList tokenList;
 		
-		float hp;
+		public readonly int camp;
+		public float hp;
 
-		public Breakable(StatsBase origin, bool penetrateable)
+		public Breakable(StatsBase origin, bool penetrateable, int camp)
 		{
 			this.penetrateable = penetrateable;
 			this.origin = origin;
+			this.camp = camp;
 			unchangeableStats = CalUnchangeableStats();
 			sumStats = CalSumStats();
 			secondMulStats = CalSecondMulStats();
@@ -60,10 +63,11 @@ namespace OnTheRecord.Entity
 			return (unchangeableStats + sumStats) * secondMulStats;
 		}
 
-		public Breakable(StatsBase origin, bool penetrateable, TokenList tokenList)
+		public Breakable(StatsBase origin, bool penetrateable, int camp, TokenList tokenList)
 		{
 			this.penetrateable = penetrateable;
 			this.origin = origin;
+			this.camp = camp;
 			this.tokenList = tokenList;
 			unchangeableStats = CalUnchangeableStats();
 			sumStats = CalSumStats();
@@ -72,18 +76,37 @@ namespace OnTheRecord.Entity
 			this.hp = finalStats.hpMaxS;
 		}
 
-		public void DamageHp(float damage)
+		public void SubHp(float damage)
 		{
 			hp -= damage;
 			if (hp <= 0)
 				hp = 0;
 		}
 
-		public void HealHp(float heal)
+		public void AddHp(float heal)
 		{
 			hp += heal;
 			if (hp > finalStats.hpMaxS)
 				hp = finalStats.hpMaxS;
+		}
+
+		public float CalDamage(float damage, int damageType)
+		{
+			switch (damageType)
+			{
+				// DamageType 에 따른 처리 내용 정리되면 추가
+				default:
+					break;
+			}
+			return damage;
+		}
+
+		public void ChangeHp(float change)
+		{
+			if (change < 0)
+				DamageHp(change);
+			else
+				HealHp(change);
 		}
 
 		virtual public void AddToken(Token t)
@@ -98,7 +121,13 @@ namespace OnTheRecord.Entity
 
 		virtual public void TurnEnd()
 		{
-			//
+			// 비활성 토큰 추가
+			tokenList.Add();
+			// 활성 토큰 제거
+			tokenList.Remove();
+			// 턴 종료 시츄에이션
+			// Passive 스킬이 있는 개체는 먼저 
+			tokenList.Situation(, this);
 		}
 	}
 }

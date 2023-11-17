@@ -162,7 +162,28 @@ namespace ExternalStaticReference
 
 	}
 
-
+	public enum DamageType
+	{
+		// 0000 예외
+		// 1XXX 물리
+		impact = 1000,
+		slash = 1001,
+		pierce = 1002,
+		shot = 1003,
+		explo = 1004,
+		// 2XXX 속성
+		flame = 2000,
+		freeze = 2001,
+		electric = 2002,
+		poison = 2003,
+		chemical = 2004,
+		// 3XXX 생체
+		disease = 3000,
+		bleed = 3001,
+		// 4XXX 보조
+		hunt = 4000,
+		harvest = 4001
+	}
 
 
 }

@@ -14,7 +14,6 @@ namespace OnTheRecord.Map
 
 		public TileCondition(int code, int turn)
 		{
-
 			remainingTurn = turn;
 		}
 	}
