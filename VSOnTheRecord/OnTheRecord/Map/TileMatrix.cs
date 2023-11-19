@@ -74,6 +74,16 @@ namespace OnTheRecord.Map
 			return colCount;
 		}
 
+		public int GetRowLength()
+		{
+			return rowCount;
+		}
+
+		public int GetColLength()
+		{
+			return colCount;
+		}
+
 		public bool IsValid(int row, int col)
 		{
 			if (row < 0 || row >= rowCount || col < 0 || col >= colCount)

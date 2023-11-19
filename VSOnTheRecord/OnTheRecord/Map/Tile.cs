@@ -52,6 +52,23 @@ namespace OnTheRecord.Map
             this.state = state;
         }
 
+        public void SetCondition(TileCondition condition)
+        {
+			this.condition = condition;
+		}
+
+        public TileCondition? GetCondition()
+        {
+            return condition;
+        }
+
+        public bool IsCanSpecify()
+        {
+            if (state is null || !state.isMovable)
+				return false;
+            return true;
+        }
+
         public bool IsMovable()
         {
 			if (state is null || !state.isMovable || entity is not null)
