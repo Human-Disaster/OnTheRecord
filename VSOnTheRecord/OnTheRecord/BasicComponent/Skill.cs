@@ -44,12 +44,20 @@ namespace OnTheRecord.BasicComponent
         // 스킬 자체가 가지고 있는 것들 (토큰X)
         // 대부분 ActiveSkillBase에 들어가게 돼었으며 여기서 실질적으로 저장되야할 내용은 스킬 쿨타임, 이번턴의 남은 가용횟수 같은 것들
         ActiveSkillBase skillBase;
-        int cooltime;
-        int availableCount;
+        public int cooltime;
+        public int availableCount;
 
-        SkillArea activeeffect_area;
-        SkillEffect hitactivablemove;
-        public void AtkRoll(/*스킬 오브젝트*/ Activable attacker, Activable defender)
+        public ActiveSkill(ActiveSkillBase skillBase)
+        {
+			this.skillBase = skillBase;
+			cooltime = 0;
+            if (skillBase.availableCount != 0)
+                availableCount = skillBase.availableCount;
+            else
+				availableCount = 1;
+		}
+
+        public void AtkRoll(/*스킬 오브젝트*/ Activable attacker, Breakable defender)
         {
             if (/*flag 체크 ex (!skill.trueflight) &&*/ AccRoll(attacker))
                 MissProcess(attacker, defender);
@@ -59,14 +67,14 @@ namespace OnTheRecord.BasicComponent
                 NormalProcess(attacker, defender);
         }
 
-        private void MissProcess(Activable attacker, Activable defender)
+        private void MissProcess(Activable attacker, Breakable defender)
         {
             // todo 명중판정 실패, 명중판정 실패시 활성화 되는것 활성화
             defender.GrantToken(miss_list);
             PassiveProcess(attacker, defender, Stituation.Do_miss);
         }
 
-        private void DogProcess(Activable attacker, Activable defender)
+        private void DogProcess(Activable attacker, Breakable defender)
         {
             // todo 회피판정 성공. 회피판정 실패시 활성화 되는것 활성화
             PassiveProcess(attacker, defender, Stituation.Do_doge);
@@ -78,7 +86,7 @@ namespace OnTheRecord.BasicComponent
             return false;
         }
 
-        private bool DogRoll(Activable defender)
+        private bool DogRoll(Breakable defender)
         {
             // todo 회피판정
             return false;

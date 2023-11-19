@@ -34,12 +34,12 @@ namespace OnTheRecord.BasicComponent
 		public readonly float critDS = 0;
 		public readonly float critRS = 0;
 		public readonly float resPhysicS = 0;
-		public readonly float resFireS = 0;
-		public readonly float resIceS = 0;
-		public readonly float resLightningS = 0;
+		public readonly float resFlameS = 0;
+		public readonly float resFreezeS = 0;
+		public readonly float resElectricS = 0;
 		public readonly float resPoisonS = 0;
 		public readonly float resDiseaseS = 0;
-		public readonly float resAcidS = 0;
+		public readonly float resChemicalS = 0;
 
 
 		public StatsBase(string str) : base(str)
@@ -61,12 +61,12 @@ namespace OnTheRecord.BasicComponent
 			critDS = base.BaseFloatParse(values[14]);
 			critRS = base.BaseFloatParse(values[15]);
 			resPhysicS = base.BaseFloatParse(values[16]);
-			resFireS = base.BaseFloatParse(values[17]);
-			resIceS = base.BaseFloatParse(values[18]);
-			resLightningS = base.BaseFloatParse(values[19]);
+			resFlameS = base.BaseFloatParse(values[17]);
+			resFreezeS = base.BaseFloatParse(values[18]);
+			resElectricS = base.BaseFloatParse(values[19]);
 			resPoisonS = base.BaseFloatParse(values[20]);
 			resDiseaseS = base.BaseFloatParse(values[21]);
-			resAcidS = base.BaseFloatParse(values[22]);
+			resChemicalS = base.BaseFloatParse(values[22]);
 		}
 
 		public StatsBase(int code, int init) : base(code)
@@ -87,16 +87,21 @@ namespace OnTheRecord.BasicComponent
 			critDS = init;
 			critRS = init;
 			resPhysicS = init;
-			resFireS = init;
-			resIceS = init;
-			resLightningS = init;
+			resFlameS = init;
+			resFreezeS = init;
+			resElectricS = init;
 			resPoisonS = init;
 			resDiseaseS = init;
-			resAcidS = init;
+			resChemicalS = init;
 		}
 
-		public static CalStats operator +(StatsBase a, StatsBase b)
-			=> new CalStats(
+		public static CalStats operator +(StatsBase? a, StatsBase? b)
+		{
+			if (a is null)
+				return new CalStats(b);
+			if (b is null)
+				return new CalStats(a);
+			return new CalStats(
 				b.hpMaxS + a.hpMaxS,
 				b.hpRS + a.hpRS,
 				b.sanMaxS + a.sanMaxS,
@@ -113,16 +118,20 @@ namespace OnTheRecord.BasicComponent
 				b.critDS + a.critDS,
 				b.critRS + a.critRS,
 				b.resPhysicS + a.resPhysicS,
-				b.resFireS + a.resFireS,
-				b.resIceS + a.resIceS,
-				b.resLightningS + a.resLightningS,
+				b.resFlameS + a.resFlameS,
+				b.resFreezeS + a.resFreezeS,
+				b.resElectricS + a.resElectricS,
 				b.resPoisonS + a.resPoisonS,
 				b.resDiseaseS + a.resDiseaseS,
-				b.resAcidS + a.resAcidS
+				b.resChemicalS + a.resChemicalS
 				);
+		}
 
-		public static CalStats operator +(CalStats a, StatsBase b)
-			=> new CalStats(
+		public static CalStats operator +(CalStats a, StatsBase? b)
+		{
+			if (b is null)
+				return a;
+			return new CalStats(
 				b.hpMaxS + a.hpMaxS,
 				b.hpRS + a.hpRS,
 				b.sanMaxS + a.sanMaxS,
@@ -139,18 +148,22 @@ namespace OnTheRecord.BasicComponent
 				b.critDS + a.critDS,
 				b.critRS + a.critRS,
 				b.resPhysicS + a.resPhysicS,
-				b.resFireS + a.resFireS,
-				b.resIceS + a.resIceS,
-				b.resLightningS + a.resLightningS,
+				b.resFlameS + a.resFlameS,
+				b.resFreezeS + a.resFreezeS,
+				b.resElectricS + a.resElectricS,
 				b.resPoisonS + a.resPoisonS,
 				b.resDiseaseS + a.resDiseaseS,
-				b.resAcidS + a.resAcidS
+				b.resChemicalS + a.resChemicalS
 				);
-		public static CalStats operator +(StatsBase a, CalStats b)
+		}
+		public static CalStats operator +(StatsBase? a, CalStats b)
 			=> b + a;
 
-		public static CalStats operator -(StatsBase a)
-			=> new CalStats(
+		public static CalStats operator -(StatsBase? a)
+		{
+			if (a is null)
+				return new CalStats();
+			return new CalStats(
 				-a.hpMaxS,
 				-a.hpRS,
 				-a.sanMaxS,
@@ -167,21 +180,25 @@ namespace OnTheRecord.BasicComponent
 				-a.critDS,
 				-a.critRS,
 				-a.resPhysicS,
-				-a.resFireS,
-				-a.resIceS,
-				-a.resLightningS,
+				-a.resFlameS,
+				-a.resFreezeS,
+				-a.resElectricS,
 				-a.resPoisonS,
 				-a.resDiseaseS,
-				-a.resAcidS
+				-a.resChemicalS
 				);
-		public static CalStats operator -(StatsBase a, StatsBase b)
+		}
+		public static CalStats operator -(StatsBase? a, StatsBase? b)
 			=> a + (-b);
-		public static CalStats operator -(CalStats a, StatsBase b)
+		public static CalStats operator -(CalStats a, StatsBase? b)
 			=> a + (-b);
-		public static CalStats operator -(StatsBase a, CalStats b)
+		public static CalStats operator -(StatsBase? a, CalStats b)
 			=> a + (-b);
-		public static CalStats operator *(StatsBase a, StatsBase b)
-			=> new CalStats(
+		public static CalStats operator *(StatsBase? a, StatsBase? b)
+		{
+			if (a is null || b is null)
+				return new CalStats();
+			return new CalStats(
 				b.hpMaxS * a.hpMaxS,
 				b.hpRS * a.hpRS,
 				b.sanMaxS * a.sanMaxS,
@@ -198,15 +215,19 @@ namespace OnTheRecord.BasicComponent
 				b.critDS * a.critDS,
 				b.critRS * a.critRS,
 				b.resPhysicS * a.resPhysicS,
-				b.resFireS * a.resFireS,
-				b.resIceS * a.resIceS,
-				b.resLightningS * a.resLightningS,
+				b.resFlameS * a.resFlameS,
+				b.resFreezeS * a.resFreezeS,
+				b.resElectricS * a.resElectricS,
 				b.resPoisonS * a.resPoisonS,
 				b.resDiseaseS * a.resDiseaseS,
-				b.resAcidS * a.resAcidS
+				b.resChemicalS * a.resChemicalS
 				);
-		public static CalStats operator *(CalStats a, StatsBase b)
-			=> new CalStats(
+		}
+		public static CalStats operator *(CalStats a, StatsBase? b)
+		{
+			if (b is null)
+				return new CalStats();
+			return new CalStats(
 				b.hpMaxS * a.hpMaxS,
 				b.hpRS * a.hpRS,
 				b.sanMaxS * a.sanMaxS,
@@ -223,17 +244,21 @@ namespace OnTheRecord.BasicComponent
 				b.critDS * a.critDS,
 				b.critRS * a.critRS,
 				b.resPhysicS * a.resPhysicS,
-				b.resFireS * a.resFireS,
-				b.resIceS * a.resIceS,
-				b.resLightningS * a.resLightningS,
+				b.resFlameS * a.resFlameS,
+				b.resFreezeS * a.resFreezeS,
+				b.resElectricS * a.resElectricS,
 				b.resPoisonS * a.resPoisonS,
 				b.resDiseaseS * a.resDiseaseS,
-				b.resAcidS * a.resAcidS
+				b.resChemicalS * a.resChemicalS
 				);
-		public static CalStats operator *(StatsBase a, CalStats b)
+		}
+		public static CalStats operator *(StatsBase? a, CalStats b)
 			=> b * a;
-		public static CalStats operator *(StatsBase a, int b)
-			=> new CalStats(
+		public static CalStats operator *(StatsBase? a, int b)
+		{
+			if (a is null)
+				return new CalStats();
+			return new CalStats(
 				b * a.hpMaxS,
 				b * a.hpRS,
 				b * a.sanMaxS,
@@ -250,14 +275,16 @@ namespace OnTheRecord.BasicComponent
 				b * a.critDS,
 				b * a.critRS,
 				b * a.resPhysicS,
-				b * a.resFireS,
-				b * a.resIceS,
-				b * a.resLightningS,
+				b * a.resFlameS,
+				b * a.resFreezeS,
+				b * a.resElectricS,
 				b * a.resPoisonS,
 				b * a.resDiseaseS,
-				b * a.resAcidS
+				b * a.resChemicalS
 				);
-		public static CalStats operator *(int a, StatsBase b)
+		}
+
+		public static CalStats operator *(int a, StatsBase? b)
 			=> b * a;
 	}
 }

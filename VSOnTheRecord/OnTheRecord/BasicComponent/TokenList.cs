@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OnTheRecord.Entity;
 
 /*
  * demotion 기능은 미구현
@@ -48,49 +49,45 @@ namespace OnTheRecord.BasicComponent
 			_tokenList.Sort();
 		}
 
+		public void AddWithoutCalStats(TokenBase tb)
+		{
+			AddWithoutCalStats(new Token(tb));
+		}
+
+		public void AddWithoutCalStats(TokenBase tb, int stack)
+		{
+			AddWithoutCalStats(new Token(tb, stack));
+		}
+
+		public void AddWithoutCalStats(int tokenCode)
+		{
+			AddWithoutCalStats(new Token(tokenCode));
+		}
+
 		public void Add(Token t)
 		{
-			// 나중에 완전히 모든 조건식이 확정이 나면 그에 따라 Stats의 계산의 필요성을 계산할 수 있다.
-			// 그런 게 가능해지면 return값을 bool로 변경
-			int i = _tokenList.BinarySearch(t);
-			if (i < 0)
-				_tokenList.Insert(~i, t);
-			else
-				_tokenList[i].stack += t.stack;
-			if (t.tBase.overlapMax < _tokenList[i].stack)
-			{
-				if (t.tBase.promotionToken.targetCode == 0)
-					_tokenList[i].stack = t.tBase.overlapMax;
-				else
-				{
-					this.Add(new Token(t.tBase.promotionToken.token, _tokenList[i].stack / (t.tBase.overlapMax + 1)));
-					_tokenList[i].stack %= (t.tBase.overlapMax + 1);
-					if (_tokenList[i].stack == 0)
-						_tokenList.RemoveAt(i);
-				}
-			}
-			_tokenList.Sort();
+			AddWithoutCalStats(t);
 			CalculateStats();
 		}
 
 		public void Add(TokenBase tb)
 		{
-			this.Add(new Token(tb));
+			Add(new Token(tb));
 		}
 
 		public void Add(TokenBase tb, int stack)
 		{
-			this.Add(new Token(tb, stack));
+			Add(new Token(tb, stack));
 		}
 
 		public void Add(int tokenCode)
 		{
-			this.Add(new Token(tokenCode));
+			Add(new Token(tokenCode));
 		}
 
 		public void Add(int tokenCode, int stack)
 		{
-			this.Add(new Token(tokenCode, stack));
+			Add(new Token(tokenCode, stack));
 		}
 
 		public void RemoveWithoutCalStats(Token t)
@@ -109,43 +106,60 @@ namespace OnTheRecord.BasicComponent
 			CalculateStats();
 		}
 
+		public void RemoveWithoutCalStats(TokenBase tb)
+		{
+			RemoveWithoutCalStats(new Token(tb));
+		}
+
+		public void RemoveWithoutCalStats(TokenBase tb, int stack)
+		{
+			RemoveWithoutCalStats(new Token(tb, stack));
+		}
+
+		public void RemoveWithoutCalStats(int tokenCode)
+		{
+			RemoveWithoutCalStats(new Token(tokenCode));
+		}
+
 		public void Remove(Token t)
 		{
-			// 나중에 완전히 모든 조건식이 확정이 나면 그에 따라 Stats의 계산의 필요성을 계산할 수 있다.
-			// 그런 게 가능해지면 return값을 bool로 변경
-			int i = _tokenList.BinarySearch(t);
-			if (i < 0)
-				return;
-			else
-			{
-				_tokenList[i].stack -= t.stack;
-				if (_tokenList[i].stack <= 0)
-					_tokenList.RemoveAt(i);
-			}
+			RemoveWithoutCalStats(t);
 			CalculateStats();
 		}
 
 		public void Remove(TokenBase tb)
 		{
-			this.Remove(new Token(tb));
+			Remove(new Token(tb));
 		}
 
 		public void Remove(TokenBase tb, int stack)
 		{
-			this.Remove(new Token(tb, stack));
+			Remove(new Token(tb, stack));
 		}
 
 		public void Remove(int tokenCode)
 		{
-			this.Remove(new Token(tokenCode));
+			Remove(new Token(tokenCode));
 		}
 
 		public void Remove(int tokenCode, int stack)
 		{
-			this.Remove(new Token(tokenCode, stack));
+			Remove(new Token(tokenCode, stack));
 		}
 
-		private void CalculateStats()
+		public void RemoveAtWithoutCalStats(int index)
+		{
+			_tokenList.RemoveAt(index);
+		}
+
+		public void RemoveAt(int index)
+		{
+			RemoveAtWithoutCalStats(index);
+			CalculateStats();
+		}
+
+
+		public void CalculateStats()
 		{
 			_sumTokenStats = new CalStats();
 			_mulTokenStats = new CalStats();
@@ -158,30 +172,33 @@ namespace OnTheRecord.BasicComponent
 			}
 		}
 
-		public void Stituation(int situation, Breakable b)
+		public void Situation(int situation, Breakable b)
 		{
 			float hpDamage = 0;
 			float hpHeal = 0;
 			//demotion 기능 미구현. 나중에 demotion 기능이 포함된 토큰이 추가된다면 구현
-			foreach (Token t in _tokenList)
+			for (int i = _tokenList.Count - 1; i >= 0; --i)
 			{
-				if (t.tBase.removeSituation1 == situation
-				|| t.tBase.removeSituation2 == situation
-				|| t.tBase.removeSituation3 == situation)
+				if (_tokenList[i].tBase.removeSituation1 == situation
+				|| _tokenList[i].tBase.removeSituation2 == situation
+				|| _tokenList[i].tBase.removeSituation3 == situation)
 				{
-					if (t.tBase.hpValueWhenRemove > 0)
-						hpHeal += t.tBase.hpValueWhenRemove;
+					if (_tokenList[i].tBase.hpValueWhenRemove > 0)
+						hpHeal += _tokenList[i].tBase.hpValueWhenRemove;
 					else
-						hpDamage -= t.tBase.hpValueWhenRemove;
+						hpDamage -= _tokenList[i].tBase.hpValueWhenRemove;
 					
-					if (t.tBase.damageWhenRemove)
-						hpDamage += b.CalDamage(t.tBase.damageValueWhenRemove, t.tBase.damageTypeWhenRemove);
-					
+					if (_tokenList[i].tBase.damageWhenRemove)
+						hpDamage += b.CalDamage(_tokenList[i].tBase.damageValueWhenRemove, _tokenList[i].tBase.damageTypeWhenRemove);
+					RemoveAtWithoutCalStats(i);
 				}
 			}
+			b.SubHp(hpDamage);
+			b.AddHp(hpHeal);
+			CalculateStats();
 		}
 
-		public Token? GetTokenBase(Token t)
+		public Token? GetToken(Token t)
 		{
 			int i = _tokenList.BinarySearch(t);
 			if (i < 0)
@@ -190,14 +207,33 @@ namespace OnTheRecord.BasicComponent
 				return _tokenList[i];
 		}
 
-		public Token? GetTokenBase(TokenBase tb)
+		public Token? GetToken(TokenBase tb)
 		{
-			return GetTokenBase(new Token(tb));
+			return GetToken(new Token(tb));
 		}
 
-		public Token? GetTokenBase(int tokenCode)
+		public Token? GetToken(int tokenCode)
 		{
-			return GetTokenBase(new Token(tokenCode));
+			return GetToken(new Token(tokenCode));
+		}
+
+		public int GetTokenStack(Token t)
+		{
+			int i = _tokenList.BinarySearch(t);
+			if (i < 0)
+				return 0;
+			else
+				return _tokenList[i].stack;
+		}
+
+		public int GetTokenStack(TokenBase tb)
+		{
+			return GetTokenStack(new Token(tb));
+		}
+
+		public int GetTokenStack(int tokenCode)
+		{
+			return GetTokenStack(new Token(tokenCode));
 		}
 		// 게임 로직에 따라 필요한 메소드들	추가할 것
 		// 

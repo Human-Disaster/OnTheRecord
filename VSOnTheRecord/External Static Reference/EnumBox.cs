@@ -115,56 +115,55 @@ namespace ExternalStaticReference
 	}
 
 
-	public enum Stituation//게임 탐험, 보스전 전체의 상황을 카테고리화 시켜놓음
+	public enum SituationCode//게임 탐험, 보스전 전체의 상황을 카테고리화 시켜놓음
 	{
 		None,
-		Eneter_Dungeon = 001,
-		Enter_Room = 002,
-		Enter_Incounter = 003,
 
-		Take_dmg = 101,
-		Take_sanitydmg = 102,
-		Take_elementdmg = 103,
-		Take_buff = 104,
-		Take_heal = 105,
-		Take_stun = 106,
-		Take_confuse = 107,
-		Take_doge = 108,
-		Take_miss = 109,
-		Take_dowm = 110,
+		// 01xx start
+		startExpedition = 0101,
+		startEngage = 0102,
+		startFreerom = 0103,
+		startRound = 0104,
+		startTurn = 0105,
 
-		/*
-		Take_useact = 1??,
-		Take_notuseact = 1??,
-		*/
+		// 02xx end
+		endExpedition = 0201,
+		endEngage = 0202,
+		endFreerom = 0203,
+		endRound = 0204,
+		endTurn = 0205,
 
-		Do_dmg = 201,
-		Do_sanitydmg = 202,
-		Do_elementdmg = 203,
-		Do_buff = 204,
-		Do_heal = 205,
-		Do_stun = 206,
-		Do_confuse = 207,
-		Do_doge = 208,
-		Do_miss = 209,
-		Do_dowm = 210,
+		// 03xx enter
+		enterRoom = 0301,
 
-		/*
-		Do_useact = 2??,
-		Do_notuseact = 2??,
-		*/
+		// 04xx exit
+		exitRoom = 0401,
+		exitTile = 0499,
 
-		Sqaud_down = 301,
-		Sqaud_notuseact = 302,
-		Sqaud_stun = 303,
+		// 05xx interact
+		interactLoot = 0501,
 
-		Hostile_down = 401
+		// 06xx do
+		doMove = 0601,
+		doAttack = 0602,
+		doDown = 0603,
 
+		// 07xx take
+		takeMove = 0701,
+		takeAttack = 0702,
+		takeDown = 0703,
+
+		// 08xx sqaud
+		sqaudDown = 0801,
+
+		// 09xx hostile
+		hostileDown = 0901
 	}
 
 	public enum DamageType
 	{
 		// 0000 예외
+		None,
 		// 1XXX 물리
 		impact = 1000,
 		slash = 1001,
@@ -185,5 +184,43 @@ namespace ExternalStaticReference
 		harvest = 4001
 	}
 
+	public enum DamageResistanceRange
+	{
+		m5 = -400,
+		m4 = -300,
+		m3 = -200,
+		m2 = -100,
+		m1 = 0,
+		z = 100,
+		p1 = 200,
+		p2 = 300,
+		p3 = 400,
+		p4 = 500,
+		infinity = 9999
+	}
+
+	public readonly struct DamageResistanceValue
+	{
+		//	-5 -4 -3 -2 -1 0 1 2 3 4 5 6
+		public static readonly float[] common = {
+			1.6F, 1.45F, 1.33F, 1.25F, 1.15F, 0.98F, 0.87F, 0.75F, 0.67F, 0.5F, 0.33F, 0F };
+	}
+
+	public enum TokenCode
+	{
+		None,
+		
+		NonInert = 100001,		//활성 토큰
+		Inert = 100002,			//비활성 토큰
+
+		ResistPhysic = 700001,	//물리 저항
+		ResistFlame = 700002,	//화염 저항
+		ResistFreeze = 700003,	//빙결 저항
+		ResistElectric = 700004,//전류 저항
+		ResistPoison = 700005,	//독 저항
+		ResistDisease = 700006,	//병해 저항
+		ResistChemical = 700007,//화학 저항
+
+	}
 
 }

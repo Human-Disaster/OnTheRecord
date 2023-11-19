@@ -47,12 +47,12 @@ namespace OnTheRecord.BasicComponent
 		//치명타 저항, 해당 수치는 치명타 피해 추산에서 받을 피해를 감소시키는 수식에 사용된다.
 
 		public float resPhysicS = 0;
-		public float resFireS = 0;
-		public float resIceS = 0;
-		public float resLightningS = 0;
+		public float resFlameS = 0;
+		public float resFreezeS = 0;
+		public float resElectricS = 0;
 		public float resPoisonS = 0;
 		public float resDiseaseS = 0;
-		public float resAcidS = 0;
+		public float resChemicalS = 0;
 		/*
 		 * 저항치를 위한 스탯
 		 * 전투지역으로 이동시 저 스탯을 기반으로 저항토큰 부여
@@ -63,30 +63,33 @@ namespace OnTheRecord.BasicComponent
 		{
 		}
 
-		public CalStats(StatsBase statsBase)
+		public CalStats(StatsBase? statsBase)
 		{
-			this.hpMaxS = statsBase.hpMaxS;
-			this.hpRS = statsBase.hpRS;
-			this.sanMaxS = statsBase.sanMaxS;
-			this.sanRS = statsBase.sanRS;
-			this.apMaxS = statsBase.apMaxS;
-			this.apRS = statsBase.apRS;
-			this.spdS = statsBase.spdS;
-			this.accS = statsBase.accS;
-			this.dogS = statsBase.dogS;
-			this.defTS = statsBase.defTS;
-			this.defRS = statsBase.defRS;
-			this.atkS = statsBase.atkS;
-			this.critS = statsBase.critS;
-			this.critDS = statsBase.critDS;
-			this.critRS = statsBase.critRS;
-			this.resPhysicS = statsBase.resPhysicS;
-			this.resFireS = statsBase.resFireS;
-			this.resIceS = statsBase.resIceS;
-			this.resLightningS = statsBase.resLightningS;
-			this.resPoisonS = statsBase.resPoisonS;
-			this.resDiseaseS = statsBase.resDiseaseS;
-			this.resAcidS = statsBase.resAcidS;
+			if (statsBase is not null)
+			{
+				this.hpMaxS = statsBase.hpMaxS;
+				this.hpRS = statsBase.hpRS;
+				this.sanMaxS = statsBase.sanMaxS;
+				this.sanRS = statsBase.sanRS;
+				this.apMaxS = statsBase.apMaxS;
+				this.apRS = statsBase.apRS;
+				this.spdS = statsBase.spdS;
+				this.accS = statsBase.accS;
+				this.dogS = statsBase.dogS;
+				this.defTS = statsBase.defTS;
+				this.defRS = statsBase.defRS;
+				this.atkS = statsBase.atkS;
+				this.critS = statsBase.critS;
+				this.critDS = statsBase.critDS;
+				this.critRS = statsBase.critRS;
+				this.resPhysicS = statsBase.resPhysicS;
+				this.resFlameS = statsBase.resFlameS;
+				this.resFreezeS = statsBase.resFreezeS;
+				this.resElectricS = statsBase.resElectricS;
+				this.resPoisonS = statsBase.resPoisonS;
+				this.resDiseaseS = statsBase.resDiseaseS;
+				this.resChemicalS = statsBase.resChemicalS;
+			}
 		}
 
 		public CalStats(int statsBaseCode)
@@ -135,12 +138,12 @@ namespace OnTheRecord.BasicComponent
 			this.critDS = critDS;
 			this.critRS = critRS;
 			this.resPhysicS = resPhysicS;
-			this.resFireS = resFireS;
-			this.resIceS = resIceS;
-			this.resLightningS = resLightningS;
+			this.resFlameS = resFireS;
+			this.resFreezeS = resIceS;
+			this.resElectricS = resLightningS;
 			this.resPoisonS = resPoisonS;
 			this.resDiseaseS = resDiseaseS;
-			this.resAcidS = resAcidS;
+			this.resChemicalS = resAcidS;
 		}
 
 		public static CalStats operator -(CalStats a)
@@ -161,12 +164,12 @@ namespace OnTheRecord.BasicComponent
 				-a.critDS,
 				-a.critRS,
 				-a.resPhysicS,
-				-a.resFireS,
-				-a.resIceS,
-				-a.resLightningS,
+				-a.resFlameS,
+				-a.resFreezeS,
+				-a.resElectricS,
 				-a.resPoisonS,
 				-a.resDiseaseS,
-				-a.resAcidS
+				-a.resChemicalS
 				);
 		public static CalStats operator +(CalStats a, CalStats b)
 			=> new CalStats(
@@ -186,12 +189,12 @@ namespace OnTheRecord.BasicComponent
 				a.critDS + b.critDS,
 				a.critRS + b.critRS,
 				a.resPhysicS + b.resPhysicS,
-				a.resFireS + b.resFireS,
-				a.resIceS + b.resIceS,
-				a.resLightningS + b.resLightningS,
+				a.resFlameS + b.resFlameS,
+				a.resFreezeS + b.resFreezeS,
+				a.resElectricS + b.resElectricS,
 				a.resPoisonS + b.resPoisonS,
 				a.resDiseaseS + b.resDiseaseS,
-				a.resAcidS + b.resAcidS
+				a.resChemicalS + b.resChemicalS
 				);
 		public static CalStats operator -(CalStats a, CalStats b) => a + (-b);
 		public static CalStats operator *(CalStats a, CalStats b)
@@ -212,12 +215,12 @@ namespace OnTheRecord.BasicComponent
 				a.critDS * b.critDS,
 				a.critRS * b.critRS,
 				a.resPhysicS * b.resPhysicS,
-				a.resFireS * b.resFireS,
-				a.resIceS * b.resIceS,
-				a.resLightningS * b.resLightningS,
+				a.resFlameS * b.resFlameS,
+				a.resFreezeS * b.resFreezeS,
+				a.resElectricS * b.resElectricS,
 				a.resPoisonS * b.resPoisonS,
 				a.resDiseaseS * b.resDiseaseS,
-				a.resAcidS * b.resAcidS
+				a.resChemicalS * b.resChemicalS
 				);
 		public static CalStats operator *(CalStats a, int b)
 			=> new CalStats(
@@ -237,12 +240,12 @@ namespace OnTheRecord.BasicComponent
 				a.critDS * b,
 				a.critRS * b,
 				a.resPhysicS * b,
-				a.resFireS * b,
-				a.resIceS * b,
-				a.resLightningS * b,
+				a.resFlameS * b,
+				a.resFreezeS * b,
+				a.resElectricS * b,
 				a.resPoisonS * b,
 				a.resDiseaseS * b,
-				a.resAcidS * b
+				a.resChemicalS * b
 				);
 		public static CalStats operator *(int a, CalStats b) => b * a;
 		public static implicit operator CalStats(StatsBase a)

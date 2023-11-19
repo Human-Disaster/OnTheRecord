@@ -17,6 +17,25 @@ namespace OnTheRecord.BasicComponent
 {
 	class OnMemoryTable
 	{
+		private enum ParsNum
+		{
+			StatsBase = 0,
+			TokenBase = 1,
+			TileConditionBase = 2,
+			ActiveSkillBase = 3,
+			PassiveSkillBase = 4,
+			ArmBase = 5,
+			EquipmentBase = 6,
+			ConsumableBase = 7,
+			ItemBase = 8,
+			SpecialNPCBase = 9
+		}
+
+		private enum ParsTokenNum
+		{
+
+		}
+
 		private List<Base> _statsBaseList;
 		private List<Base> _tokenBaseList;
 		private List<Base> _tileConditionBaseList;
@@ -26,6 +45,7 @@ namespace OnTheRecord.BasicComponent
 		private List<Base> _equipmentBaseList;
 		private List<Base> _consumableBaseList;
 		private List<Base> _itemBaseList;
+		private List<Base> _specialNPCBaseList;
 
 
 		private static OnMemoryTable? _instance = null;
@@ -36,15 +56,16 @@ namespace OnTheRecord.BasicComponent
 		{
 			string csvText = ReadFile("파일 경로.csv");
 			string[] data = Regex.Split(csvText, _csvWordSplit);
-			_statsBaseList = new List<Base>(int.Parse(data[0]));
-			_tokenBaseList = new List<Base>(int.Parse(data[1]));
-			_tileConditionBaseList = new List<Base>(int.Parse(data[2]));
-			_activeSkillBaseList = new List<Base>(int.Parse(data[3]));
-			_passiveSkillBaseList = new List<Base>(int.Parse(data[4]));
-			_armBaseList = new List<Base>(int.Parse(data[5]));
-			_equipmentBaseList = new List<Base>(int.Parse(data[6]));
-			_consumableBaseList = new List<Base>(int.Parse(data[7]));
-			_itemBaseList = new List<Base>(int.Parse(data[8]));
+			_statsBaseList = new List<Base>(int.Parse(data[(int)ParsNum.StatsBase]));
+			_tokenBaseList = new List<Base>(int.Parse(data[(int)ParsNum.TokenBase]));
+			_tileConditionBaseList = new List<Base>(int.Parse(data[(int)ParsNum.TileConditionBase]));
+			_activeSkillBaseList = new List<Base>(int.Parse(data[(int)ParsNum.ActiveSkillBase]));
+			_passiveSkillBaseList = new List<Base>(int.Parse(data[(int)ParsNum.PassiveSkillBase]));
+			_armBaseList = new List<Base>(int.Parse(data[(int)ParsNum.ArmBase]));
+			_equipmentBaseList = new List<Base>(int.Parse(data[(int)ParsNum.EquipmentBase]));
+			_consumableBaseList = new List<Base>(int.Parse(data[(int)ParsNum.ConsumableBase]));
+			_itemBaseList = new List<Base>(int.Parse(data[(int)ParsNum.ItemBase]));
+			_specialNPCBaseList = new List<Base>(int.Parse(data[(int)ParsNum.SpecialNPCBase]));
 			// 각각의 BaseList 도 마찬가지로 초기화
 			MakeStatsBaseList();
 			MakeTokenBaseList();
@@ -61,7 +82,7 @@ namespace OnTheRecord.BasicComponent
 		private void MakeStatsBaseList()
 		{
 			string csvText = ReadFile("파일 경로.csv");
-			var lines = Regex.Split(csvText, _csvLineSplit);
+			string[] lines = Regex.Split(csvText, _csvLineSplit);
 			for (int i = 0; i < lines.Length; i++)
 				_statsBaseList.Add(new StatsBase(lines[i]));
 			_statsBaseList.Sort();
@@ -70,7 +91,7 @@ namespace OnTheRecord.BasicComponent
 		private void MakeTokenBaseList()
 		{
 			string csvText = ReadFile("파일 경로.csv");
-			var lines = Regex.Split(csvText, _csvLineSplit);
+			string[] lines = Regex.Split(csvText, _csvLineSplit);
 			for (int i = 0; i < lines.Length; i++)
 				_tokenBaseList.Add(new TokenBase(lines[i]));
 			_tokenBaseList.Sort();
@@ -92,7 +113,7 @@ namespace OnTheRecord.BasicComponent
 		private void MakeTileConditionBaseList()
 		{
 			string csvText = ReadFile("파일 경로.csv");
-			var lines = Regex.Split(csvText, _csvLineSplit);
+			string[] lines = Regex.Split(csvText, _csvLineSplit);
 			for (int i = 0; i < lines.Length; i++)
 				_tileConditionBaseList.Add(new TileConditionBase(lines[i]));
 			_tileConditionBaseList.Sort();
@@ -105,7 +126,7 @@ namespace OnTheRecord.BasicComponent
 		private void MakeActiveSkillBaseList()
 		{
 			string csvText = ReadFile("파일 경로.csv");
-			var lines = Regex.Split(csvText, _csvLineSplit);
+			string[] lines = Regex.Split(csvText, _csvLineSplit);
 			for (int i = 0; i < lines.Length; i++)
 				_activeSkillBaseList.Add(new ActiveSkillBase(lines[i]));
 			_activeSkillBaseList.Sort();
@@ -135,7 +156,7 @@ namespace OnTheRecord.BasicComponent
 		private void MakePassiveSkillBaseList()
 		{
 			string csvText = ReadFile("파일 경로.csv");
-			var lines = Regex.Split(csvText, _csvLineSplit);
+			string[] lines = Regex.Split(csvText, _csvLineSplit);
 			for (int i = 0; i < lines.Length; i++)
 				_passiveSkillBaseList.Add(new PassiveSkillBase(lines[i]));
 			_passiveSkillBaseList.Sort();
@@ -148,7 +169,7 @@ namespace OnTheRecord.BasicComponent
 		private void MakeArmBaseList()
 		{
 			string csvText = ReadFile("파일 경로.csv");
-			var lines = Regex.Split(csvText, _csvLineSplit);
+			string[] lines = Regex.Split(csvText, _csvLineSplit);
 			for (int i = 0; i < lines.Length; i++)
 				_armBaseList.Add(new ArmBase(lines[i]));
 			_armBaseList.Sort();
@@ -166,7 +187,7 @@ namespace OnTheRecord.BasicComponent
 		private void MakeEquipmentBaseList()
 		{
 			string csvText = ReadFile("파일 경로.csv");
-			var lines = Regex.Split(csvText, _csvLineSplit);
+			string[] lines = Regex.Split(csvText, _csvLineSplit);
 			for (int i = 0; i < lines.Length; i++)
 				_equipmentBaseList.Add(new EquipmentBase(lines[i]));
 			_equipmentBaseList.Sort();
@@ -184,7 +205,7 @@ namespace OnTheRecord.BasicComponent
 		private void MakeConsumableBaseList()
 		{
 			string csvText = ReadFile("파일 경로.csv");
-			var lines = Regex.Split(csvText, _csvLineSplit);
+			string[] lines = Regex.Split(csvText, _csvLineSplit);
 			for (int i = 0; i < lines.Length; i++)
 				_consumableBaseList.Add(new ConsumableBase(lines[i]));
 			_consumableBaseList.Sort();
@@ -198,7 +219,7 @@ namespace OnTheRecord.BasicComponent
 		private void MakeItemBaseList()
 		{
 			string csvText = ReadFile("파일 경로.csv");
-			var lines = Regex.Split(csvText, _csvLineSplit);
+			string[] lines = Regex.Split(csvText, _csvLineSplit);
 			for (int i = 0; i < lines.Length; i++)
 				_itemBaseList.Add(new ItemBase(lines[i]));
 			_itemBaseList.Sort();
@@ -211,9 +232,28 @@ namespace OnTheRecord.BasicComponent
 			}
 		}
 
-		public StatsBase GetStatsBase(int statsCode)
+		private void MakeSpecialNPCBaseList()
 		{
-			return (StatsBase)_statsBaseList[_statsBaseList.BinarySearch(new Base(statsCode))];
+			string csvText = ReadFile("파일 경로.csv");
+			string[] lines = Regex.Split(csvText, _csvLineSplit);
+			for (int i = 0; i < lines.Length; i++)
+				_specialNPCBaseList.Add(new SpecialNPCBase(lines[i]));
+			_specialNPCBaseList.Sort();
+			foreach(SpecialNPCBase snb in _specialNPCBaseList)
+			{
+				for (int i = 0; i < SpecialNPCBase.activeSkillCodeNum; i++)
+					if (snb.activeSkillCode[i] != 0)
+						snb.SetActiveSkill(GetActiveSkillBase(snb.activeSkillCode[i]), i);
+			}
+		}
+
+		public StatsBase? GetStatsBase(int statsCode)
+		{
+			int i = _statsBaseList.BinarySearch(new Base(statsCode));
+			if (i < 0)
+				return null;
+			else
+				return (StatsBase)_statsBaseList[i];
 		}
 		public TokenBase GetTokenBase(int tokenCode)
 		{
@@ -246,6 +286,11 @@ namespace OnTheRecord.BasicComponent
 		public ItemBase GetItemBase(int itemCode)
 		{
 			return (ItemBase)_itemBaseList[_itemBaseList.BinarySearch(new Base(itemCode))];
+		}
+
+		public SpecialNPCBase GetSpecialNPCBase(int specialNPCCode)
+		{
+			return (SpecialNPCBase)_specialNPCBaseList[_specialNPCBaseList.BinarySearch(new Base(specialNPCCode))];
 		}
 
 #if SERVER

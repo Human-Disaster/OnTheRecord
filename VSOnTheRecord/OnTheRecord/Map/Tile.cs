@@ -52,6 +52,22 @@ namespace OnTheRecord.Map
             this.state = state;
         }
 
+        public bool IsMovable()
+        {
+			if (state is null || !state.isMovable || entity is not null)
+				return false;
+			return true;
+		}
+
+        public bool IsPenetrable()
+        {
+			if (state is null || !state.isMovable)
+				return false;
+            if (entity is not null)
+			    return entity.penetrateable;
+            return true;
+		}
+
         public void AddItem() { }
     }
 }

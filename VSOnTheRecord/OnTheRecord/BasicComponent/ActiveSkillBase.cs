@@ -17,6 +17,27 @@ namespace OnTheRecord.BasicComponent
 		public readonly int preProcessCode;
 		public readonly int postProcessCode;
 		public readonly int constraintCode;
+		public readonly int cooltime
+		{
+			get
+			{
+				if (constraintCode / 100000 % 10 != 2)
+					return 0;
+				else
+					return constraintCode / 10000 % 10;
+			}
+		}
+		public readonly int availableCount
+		{
+			get
+			{
+				if (constraintCode / 100000 % 10 != 3)
+					return 0;
+				else
+					return constraintCode / 10000 % 10;
+			}
+		}
+
 		public readonly int skillType;
 
 		public readonly int hpConsumption;

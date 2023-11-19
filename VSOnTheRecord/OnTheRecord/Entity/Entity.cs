@@ -4,6 +4,10 @@ namespace OnTheRecord.Entity
 {
 	public class Entity
 	{
-		public bool penetrateable;
+		public readonly bool penetrateable;
+		public Entity(bool penetrateable)
+		{
+			this.penetrateable = penetrateable;
+		}
 	}
 }
