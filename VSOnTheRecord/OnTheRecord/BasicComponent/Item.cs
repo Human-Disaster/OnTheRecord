@@ -51,7 +51,11 @@ namespace OnTheRecord.BasicComponent
 	{
 		readonly public ItemBase itemBase;
 		private int _stack;
-		public readonly int stack => _stack;
+
+		public int Getstack()
+		{
+			return _stack;
+		}
 
 		public Item(ItemBase ib)
 		{

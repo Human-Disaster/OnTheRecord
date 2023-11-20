@@ -9,10 +9,11 @@ using System.Threading.Tasks;
 * 각 Entity가 가지게 될 계산용 스탯
 * 연산자 +, -, *, = 에 대해서 작동할 수 있을것
 * 모든 속성의 끝에 stat의 S를 붙여 구분을 가능한 쉽게 할 것
+* struct로 쓰고싶었는데 유니티 오류 -> class로 변경
 */
 namespace OnTheRecord.BasicComponent
 {
-	public struct CalStats
+	public class CalStats
 	{
 		public float hpMaxS = 0;
 		//개체가 가질 수 있는 체력이 최대치. 개체는 이 수치 이상의 체력을 보유할 수 없다.
@@ -94,7 +95,32 @@ namespace OnTheRecord.BasicComponent
 
 		public CalStats(int statsBaseCode)
 		{
-			this = OnMemoryTable.Instance().GetStatsBase(statsBaseCode);
+			StatsBase? statsBase = OnMemoryTable.Instance().GetStatsBase(statsBaseCode);
+			if (statsBase is not null)
+			{
+				this.hpMaxS = statsBase.hpMaxS;
+				this.hpRS = statsBase.hpRS;
+				this.sanMaxS = statsBase.sanMaxS;
+				this.sanRS = statsBase.sanRS;
+				this.apMaxS = statsBase.apMaxS;
+				this.apRS = statsBase.apRS;
+				this.spdS = statsBase.spdS;
+				this.accS = statsBase.accS;
+				this.dogS = statsBase.dogS;
+				this.defTS = statsBase.defTS;
+				this.defRS = statsBase.defRS;
+				this.atkS = statsBase.atkS;
+				this.critS = statsBase.critS;
+				this.critDS = statsBase.critDS;
+				this.critRS = statsBase.critRS;
+				this.resPhysicS = statsBase.resPhysicS;
+				this.resFlameS = statsBase.resFlameS;
+				this.resFreezeS = statsBase.resFreezeS;
+				this.resElectricS = statsBase.resElectricS;
+				this.resPoisonS = statsBase.resPoisonS;
+				this.resDiseaseS = statsBase.resDiseaseS;
+				this.resChemicalS = statsBase.resChemicalS;
+			}
 		}
 
 		public CalStats(

@@ -11,7 +11,12 @@ namespace OnTheRecord.BasicComponent
 	public class ItemBase : Base
 	{
 		public readonly int nameCode;
-		public readonly int itemType => _baseCode / 100000 % 10;
+
+		public int GetItemType()
+		{
+			return _baseCode / 100000 % 10;
+		}
+
 		public readonly int stackMax;
 		public readonly int weight;
 		public readonly int consumableCode;

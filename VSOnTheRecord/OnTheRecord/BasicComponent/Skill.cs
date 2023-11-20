@@ -5,6 +5,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using OnTheRecord.Entity;
+using OnTheRecord.BasicComponent;
+using ExternalStaticReference;
 
 /*
   미완 이런 느낌이다 참고만 할 것
@@ -51,8 +53,8 @@ namespace OnTheRecord.BasicComponent
         {
 			this.skillBase = skillBase;
 			cooltime = 0;
-            if (skillBase.availableCount != 0)
-                availableCount = skillBase.availableCount;
+            if (skillBase.GetAvailableCount() != 0)
+                availableCount = skillBase.GetAvailableCount();
             else
 				availableCount = 1;
 		}
@@ -70,14 +72,14 @@ namespace OnTheRecord.BasicComponent
         private void MissProcess(Activable attacker, Breakable defender)
         {
             // todo 명중판정 실패, 명중판정 실패시 활성화 되는것 활성화
-            defender.GrantToken(miss_list);
-            PassiveProcess(attacker, defender, Stituation.Do_miss);
+            //defender.AddToken(miss_list);
+            //PassiveProcess(attacker, defender, SituationCode.Miss);
         }
 
         private void DogProcess(Activable attacker, Breakable defender)
         {
             // todo 회피판정 성공. 회피판정 실패시 활성화 되는것 활성화
-            PassiveProcess(attacker, defender, Stituation.Do_doge);
+            //PassiveProcess(attacker, defender, SituationCode.DoDoge);
         }
 
         private bool AccRoll(Activable attacker)
@@ -92,21 +94,15 @@ namespace OnTheRecord.BasicComponent
             return false;
         }
 
-        private void NormalProcess(Activable attacker, Activable defender)
+        private void NormalProcess(Activable attacker, Breakable defender)
         {
             // todo
-            DmgRoll(defender);
-            PassiveProcess(attacker, defender, Stituation.Do_hit);
+            //DmgRoll(attacker, defender);
+            //PassiveProcess(attacker, defender, SituationCode.DoHit);
         }
 
         private void DmgRoll(Activable attacker, Activable defender)
         {
-            float phys_temp_dmg = phys_dmg;
-            float elem_temp_dmg = elements_dmg;
-            float san_temp_dmg = sanity_dmg;
-            if (CritRoll())
-
-                Dmg_function.Apply_damage();
         }
 
 
@@ -122,15 +118,15 @@ namespace OnTheRecord.BasicComponent
 
         private bool CritRoll(Activable attacker, Activable defender/* 증폭시켜줄 temp_dmg 들을 매개변수로 받아올 것 */)
         {
-
+            return false;
         }
 
         // 받는 Stituation은 Do_ 형식일것
-        public void PassiveProcess(Activable activist, Activable passivist, Stituation stituation)
+        public void PassiveProcess(Activable activist, Activable passivist, int situation)
         {
 
-            activist.PassiveCheck(stituation, passivist);
-            passivist.PassiveCheck(stituation - 100, activist);
+            //activist.PassiveCheck(stituation, passivist);
+            //passivist.PassiveCheck(stituation - 100, activist);
 
             /*
             
@@ -155,23 +151,12 @@ namespace OnTheRecord.BasicComponent
     {
         List<Skill> act_list = new List<Skill>();
         List<Skill> pas_list = new List<Skill>();
-
-        public void Sort()
-        {
-            token_list.Sort(delegate (Skill x, Skill y)
-            {
-                if (x.TokenType == 0 && y.TokenType == 0) return 0; // to do https://learn.microsoft.com/ko-kr/dotnet/api/system.collections.generic.list-1?view=net-6.0 참고 
-                else if (x.TokenType == 0) return -1;
-                else if (y.TokenType == 0) return 1;
-                else return x.TokenType.CompareTo(y.TokenType);
-            });
-        }
-
-        public void PasiveCheck(Stituation stituation, Activable self, Activable other)
+        /*
+        public void PasiveCheck(int situation, Activable self, Activable other)
         {
             // to do 리스트에 트리거 체크로 패시브를 확인한 뒤 self에게 토큰을 부여하는지, other에게 부여하는지, self가 피격됬을때 other가 가지는지 확인함
         }
-
+        */
         /* parts.Sort(delegate (Part x, Part y)
        {
            if (x.PartName == null && y.PartName == null) return 0;

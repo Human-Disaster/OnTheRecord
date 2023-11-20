@@ -293,12 +293,15 @@ namespace OnTheRecord.BasicComponent
 			return (SpecialNPCBase)_specialNPCBaseList[_specialNPCBaseList.BinarySearch(new Base(specialNPCCode))];
 		}
 
-#if SERVER
 		private string ReadFile(string filePath)
 		{
+#if SERVER
 			return System.IO.File.ReadAllText(filePath);
-		}
+#else
+			TextAsset textAsset = Resources.Load<TextAsset>(filePath);
+			return textAsset.text;
 #endif
+		}
 		public static OnMemoryTable Instance()
 		{
 			if (_instance == null)

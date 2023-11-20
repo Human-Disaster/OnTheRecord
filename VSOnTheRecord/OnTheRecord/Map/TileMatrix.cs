@@ -1,6 +1,7 @@
 ﻿using OnTheRecord.Entity;
 using System;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace OnTheRecord.Map
 {
@@ -53,6 +54,12 @@ namespace OnTheRecord.Map
 				matrix[row * colCount + col].SetEntity(entity);
 		}
 
+		public void SetEntity(int loc, Entity.Entity entity)
+		{
+			if (IsValid(loc))
+				matrix[loc].SetEntity(entity);
+		}
+
 		public void SetState(int row, int col, TileState state) {
 			if (IsValid(row, col))
 				matrix[row * colCount + col].SetState(state);
@@ -63,7 +70,7 @@ namespace OnTheRecord.Map
 				matrix[loc].SetState(state);
 		}
 
-		public Tile GetTile(int row, int col)
+		public Tile? GetTile(int row, int col)
 		{
 			if (!IsValid(row, col))
 				return null;
@@ -245,8 +252,13 @@ namespace OnTheRecord.Map
 			matrix[row * colCount + col].HighlightOn();
 		}
 
-		public void HighlightSkillRange(int row, int col, int skillType)
-		{}
+		public void HighlightSkillRange(int row, int col, int skillType, int range)
+		{
+			if (!IsValid(row, col))
+				return;
+            HighlightOff();
+			
+		}
 	}
 }
 

@@ -18,7 +18,7 @@ namespace OnTheRecord.BasicComponent
 				itemList.Add(new Item(newItem, 0));
 				findItemIndex = itemList.Count - 1;
 			}
-			while (newItem.stack + itemList[findItemIndex].stack > newItem.itemBase.stackMax)
+			while (newItem.Getstack() + itemList[findItemIndex].Getstack() > newItem.itemBase.stackMax)
 			{
 				itemList[findItemIndex].MoveStack(newItem);
 				itemList.Add(new Item(newItem, 0));

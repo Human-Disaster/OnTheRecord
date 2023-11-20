@@ -11,11 +11,13 @@ namespace OnTheRecord.Entity
     class Activable : Breakable
     {
         public ActiveSkill?[] activeSkills;
-        public int sanity;
-        public int ap;
-        public Activable(StatsBase origin, )
+        public float sanity;
+        public float ap;
+        public Activable(StatsBase origin, int camp) : base(origin, camp)
         {
-
+            activeSkills = Array.Empty<ActiveSkill?>();
+            sanity = origin.sanMaxS;
+            ap = origin.apMaxS;
         }
 
 

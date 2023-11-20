@@ -46,26 +46,38 @@ namespace OnTheRecord.Map
 
         public Room(params object[] objs)
         {
-            int[] needPars = obj[0];
-            tiles = new TileMatrix(obj[1], obj[2]);
+            int[] needPars = (int[])objs[0];
+            tiles = new TileMatrix((int)objs[1], (int)objs[2]);
             object obj;
             TileState movable = new PlainTileState();
             TileState wall = new WallTileState();
-            for (int loc = 0; loc < obj[1] * obj[2]; loc++)
+            for (int loc = 0; loc < (int)objs[1] * (int)objs[2]; loc++)
             {
-                if (needPars[loc] == RoomParsNum.Movable)
+                if (needPars[loc] == (int)RoomParsNum.Movable)
                     tiles.SetState(loc, movable);
-                else if (needPars[loc] == RoomParsNum.Wall)
+                else if (needPars[loc] == (int)RoomParsNum.Wall)
                     tiles.SetState(loc, wall);
-                obj = objs[num + 1];
-                if (obj is TileState)
-                    tiles.SetState(loc, obj as TileState);
-                else if (obj is Entity)
-                    tiles.SetEntity(loc, obj as Entity);
                 else
-                    throw new Exception("Invalid parameter");
+                {
+                    obj = objs[needPars[loc] + 1];
+                    if (!(obj as TileState is null))
+                        tiles.SetState(loc, obj as TileState);
+                    else if (!(obj as Entity.Entity is null))
+                    {
+                        tiles.SetState(loc, movable);
+                        tiles.SetEntity(loc, obj as Entity.Entity);
+                    }
+                    else
+                        throw new Exception("Invalid parameter");
+                }
             }
+            seed = new int[0, 0];
         }
+
+        public Tile? GetTile(int row, int col)
+        {
+			return tiles.GetTile(row, col);
+		}
 
         public void PrintMatrix()
         {

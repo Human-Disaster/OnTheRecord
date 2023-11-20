@@ -8,8 +8,13 @@ namespace OnTheRecord.BasicComponent
 {
 	public class EquipmentBase : Base
 	{
-		public readonly int specialCode;	// 특수 매커니즘 코드
-		public readonly int equipmentType => _baseCode / 100000 % 10;
+		public readonly int specialCode;    // 특수 매커니즘 코드
+
+		public int GetEquipmentType()
+		{
+			return _baseCode / 100000 % 10;
+		}
+
 		public readonly int addStatsCode;
 		private StatsBase? _addStats = null;
 		public ref readonly StatsBase? addStats => ref _addStats;
