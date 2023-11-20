@@ -34,28 +34,45 @@ namespace OnTheRecord.Map
 			--colCount;
 		}
 
+		public bool IsValid(int row, int col)
+		{
+			if (row < 0 || row >= rowCount || col < 0 || col >= colCount)
+				return false;
+			return true;
+		}
+
+		public bool IsValid(int loc)
+		{
+			if (loc < 0 || loc >= rowCount * colCount)
+				return false;
+			return true;
+		}
+
 		public void SetEntity(int row, int col, Entity.Entity entity) {
-			if(row < 0 || row >= rowCount || col < 0 || col >= colCount) {
-				return;
-			}
-			matrix[row * colCount + col].SetEntity(entity);
+			if (IsValid(row, col))
+				matrix[row * colCount + col].SetEntity(entity);
 		}
 
 		public void SetState(int row, int col, TileState state) {
-			if(row < 0 || row >= rowCount || col < 0 || col >= colCount) {
-				return;
-			}
-			matrix[row * colCount + col].SetState(state);
+			if (IsValid(row, col))
+				matrix[row * colCount + col].SetState(state);
+		}
+
+		public void SetState(int loc, TileState state) {
+			if (IsValid(loc))
+				matrix[loc].SetState(state);
 		}
 
 		public Tile GetTile(int row, int col)
 		{
+			if (!IsValid(row, col))
+				return null;
 			return matrix[row * colCount + col];
 		}
 
 		public TileState? GetState(int row, int col)
 		{
-			if(row < 0 || row >= rowCount || col < 0 || col >= colCount)
+			if (row < 0 || row >= rowCount || col < 0 || col >= colCount)
 				return null;
 			return matrix[row * colCount + col].GetState();
 		}
@@ -82,13 +99,6 @@ namespace OnTheRecord.Map
 		public int GetColLength()
 		{
 			return colCount;
-		}
-
-		public bool IsValid(int row, int col)
-		{
-			if (row < 0 || row >= rowCount || col < 0 || col >= colCount)
-				return false;
-			return true;
 		}
 
 		private int GCD(int a, int b)

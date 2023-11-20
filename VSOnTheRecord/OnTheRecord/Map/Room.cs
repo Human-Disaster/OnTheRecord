@@ -38,6 +38,35 @@ namespace OnTheRecord.Map
             Room_generate(weight, plain, max);
         }
 
+        private enum RoomParsNum
+        {
+            Movable = 0,
+            Wall = 1
+        }
+
+        public Room(params object[] objs)
+        {
+            int[] needPars = obj[0];
+            tiles = new TileMatrix(obj[1], obj[2]);
+            object obj;
+            TileState movable = new PlainTileState();
+            TileState wall = new WallTileState();
+            for (int loc = 0; loc < obj[1] * obj[2]; loc++)
+            {
+                if (needPars[loc] == RoomParsNum.Movable)
+                    tiles.SetState(loc, movable);
+                else if (needPars[loc] == RoomParsNum.Wall)
+                    tiles.SetState(loc, wall);
+                obj = objs[num + 1];
+                if (obj is TileState)
+                    tiles.SetState(loc, obj as TileState);
+                else if (obj is Entity)
+                    tiles.SetEntity(loc, obj as Entity);
+                else
+                    throw new Exception("Invalid parameter");
+            }
+        }
+
         public void PrintMatrix()
         {
             string s;
