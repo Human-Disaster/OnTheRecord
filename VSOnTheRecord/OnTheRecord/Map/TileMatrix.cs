@@ -130,7 +130,6 @@ namespace OnTheRecord.Map
 					startR += rowAdd;
 				else
 					startC += colAdd;
-				check += checkAdd;
 				if (check == dist)
 				{
 					if (direction)
@@ -157,6 +156,7 @@ namespace OnTheRecord.Map
 					if (!GetTile(startR, startC).IsPenetrable())
 						return false;
 				}
+				check += checkAdd;
 			}
 		}
 
