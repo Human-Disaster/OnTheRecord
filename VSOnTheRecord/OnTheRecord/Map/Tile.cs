@@ -13,6 +13,7 @@ namespace OnTheRecord.Map
         //private List<Interacterable.Interacterable> interacterables;
         private TileState? state;
         private TileCondition? condition;
+        public bool highlighted = false;
 
         public Tile() {
             this.entity = null;
@@ -86,5 +87,15 @@ namespace OnTheRecord.Map
 		}
 
         public void AddItem() { }
+
+        public void HighlightOn()
+        {
+			highlighted = true;
+		}
+
+        public void HighlightOff()
+        {
+            highlighted = false;
+        }
     }
 }

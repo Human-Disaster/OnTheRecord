@@ -221,6 +221,22 @@ namespace OnTheRecord.Map
 				check += checkAdd;
 			}
 		}
+
+		public void HighlightOff()
+		{
+			for (int i = 0; i < rowCount * colCount; i++)
+				matrix[i].HighlightOff();
+		}
+
+		public void HighlightOn(int row, int col)
+		{
+			if (IsValid(row, col))
+				return;
+			matrix[row * colCount + col].HighlightOn();
+		}
+
+		public void HighlightSkillRange(int row, int col, int skillType)
+		{}
 	}
 }
 
