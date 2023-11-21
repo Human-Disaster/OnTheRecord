@@ -2,6 +2,12 @@
 using System;
 using System.Diagnostics;
 using System.Collections.Generic;
+using ExternalStaticReference;
+using OnTheRecord.BasicComponent;
+
+/*
+ * 왼쪽 위가 0,0 오른쪽 아래가 col - 1, row - 1
+ */
 
 namespace OnTheRecord.Map
 {
@@ -49,6 +55,20 @@ namespace OnTheRecord.Map
 			return true;
 		}
 
+		public bool IsValidRow(int row)
+		{
+			if (row < 0 || row >= rowCount)
+				return false;
+			return true;
+		}
+
+		public bool IsValidCol(int col)
+		{
+			if (col < 0 || col >= colCount)
+				return false;
+			return true;
+		}
+
 		public void SetEntity(int row, int col, Entity.Entity entity) {
 			if (IsValid(row, col))
 				matrix[row * colCount + col].SetEntity(entity);
@@ -77,11 +97,25 @@ namespace OnTheRecord.Map
 			return matrix[row * colCount + col];
 		}
 
+		public Tile? GetTile(int loc)
+		{
+			if (!IsValid(loc))
+				return null;
+			return matrix[loc];
+		}
+
 		public TileState? GetState(int row, int col)
 		{
 			if (row < 0 || row >= rowCount || col < 0 || col >= colCount)
 				return null;
 			return matrix[row * colCount + col].GetState();
+		}
+
+		public TileState? GetState(int loc)
+		{
+			if (loc < 0 || loc >= rowCount * colCount)
+				return null;
+			return matrix[loc].GetState();
 		}
 
 		public Type? GetStateType(int row, int col)
@@ -252,12 +286,205 @@ namespace OnTheRecord.Map
 			matrix[row * colCount + col].HighlightOn();
 		}
 
-		public void HighlightSkillRange(int row, int col, int skillType, int range)
+		private void MakeSquareRange(int row, int col, int range, List<int> tilesNum)
 		{
 			if (!IsValid(row, col))
 				return;
+			int startRow = row - range;
+			int endRow = row + range;
+			int startCol = col - range;
+			int endCol = col + range;
+			if (startRow < 0)
+				startRow = 0;
+			if (endRow >= rowCount)
+				endRow = rowCount - 1;
+			if (startCol < 0)
+				startCol = 0;
+			if (endCol >= colCount)
+				endCol = colCount - 1;
+			for (int i = startRow; i <= endRow; i++)
+				for (int j = startCol; j <= endCol; j++)
+					tilesNum.Add(i * colCount + j);
+		}
+
+		private void MakeCircleRange(int row, int col, int range, List<int> tilesNum)
+		{
+			if (!IsValid(row, col))
+				return;
+			int startRow = row - range;
+			int endRow = row + range;
+			int startCol = col - range;
+			int endCol = col + range;
+			range *= range;
+			if (startRow < 0)
+				startRow = 0;
+			if (endRow >= rowCount)
+				endRow = rowCount - 1;
+			if (startCol < 0)
+				startCol = 0;
+			if (endCol >= colCount)
+				endCol = colCount - 1;
+			for (int i = startRow; i <= endRow; i++)
+				for (int j = startCol; j <= endCol; j++)
+					if ((row - i) * (row - i) + (col - j) * (col - j) <= range)
+						tilesNum.Add(i * colCount + j);
+		}
+
+		private void MakeDiamondRange(int row, int col, int range, List<int> tilesNum)
+		{
+			if (!IsValid(row, col))
+				return;
+			int startRow = row - range;
+			int endRow = row + range;
+			int startCol = col - range;
+			int endCol = col + range;
+			if (startRow < 0)
+				startRow = 0;
+			if (endRow >= rowCount)
+				endRow = rowCount - 1;
+			if (startCol < 0)
+				startCol = 0;
+			if (endCol >= colCount)
+				endCol = colCount - 1;
+			for (int i = startRow; i <= endRow; i++)
+				for (int j = startCol; j <= endCol; j++)
+					if (Math.Abs(row - i) + Math.Abs(col - j) <= range)
+						tilesNum.Add(i * colCount + j);
+		}
+
+		private void MakeCrossRange(int row, int col, int range, List<int> tilesNum)
+		{
+			if (!IsValid(row, col))
+				return;
+			tilesNum.Add(row * colCount + col);
+			for (int i = 1; i <= range; i++)
+			{
+				if (IsValidRow(row - i))
+					tilesNum.Add((row - i) * colCount + col);
+				if (IsValidRow(row + i))
+					tilesNum.Add((row + i) * colCount + col);
+				if (IsValidCol(col - i))
+					tilesNum.Add(row * colCount + col - i);
+				if (IsValidCol(col + i))
+					tilesNum.Add(row * colCount + col + i);
+			}
+		}
+
+		private void MakeXShapeRange(int row, int col, int range, List<int> tilesNum)
+		{
+			if (!IsValid(row, col))
+				return;
+			tilesNum.Add(row * colCount + col);
+			for (int i = 1; i <= range; i++)
+			{
+				if (IsValid(row - i, col - i))
+					tilesNum.Add((row - i) * colCount + col - i);
+				if (IsValid(row - i, col + i))
+					tilesNum.Add((row - i) * colCount + col + i);
+				if (IsValid(row + i, col - i))
+					tilesNum.Add((row + i) * colCount + col - i);
+				if (IsValid(row + i, col + i))
+					tilesNum.Add((row + i) * colCount + col + i);
+			}
+		}
+
+		private void MakeSpreadRange(int row, int col, int range, List<int> tilesNum)
+		{
+			if (!IsValid(row, col))
+				return;
+			tilesNum.Add(row * colCount + col);
+			for (int i = 1; i <= range; i++)
+			{
+				if (IsValidRow(row - i))
+					tilesNum.Add((row - i) * colCount + col);
+				if (IsValidRow(row + i))
+					tilesNum.Add((row + i) * colCount + col);
+				if (IsValidCol(col - i))
+					tilesNum.Add(row * colCount + col - i);
+				if (IsValidCol(col + i))
+					tilesNum.Add(row * colCount + col + i);
+				if (IsValid(row - i, col - i))
+					tilesNum.Add((row - i) * colCount + col - i);
+				if (IsValid(row - i, col + i))
+					tilesNum.Add((row - i) * colCount + col + i);
+				if (IsValid(row + i, col - i))
+					tilesNum.Add((row + i) * colCount + col - i);
+				if (IsValid(row + i, col + i))
+					tilesNum.Add((row + i) * colCount + col + i);
+			}
+		}
+
+		private List<int> SkillAimRange(int row, int col, int aimType, int range)
+		{
+			List<int> result = new List<int>();
+			switch (aimType)
+			{
+				case (int)AimingCode.Square:
+					MakeSquareRange(row, col, range, result);
+					break;
+				case (int)AimingCode.Circle:
+					MakeCircleRange(row, col, range, result);
+					break;
+				case (int)AimingCode.Diamond:
+					MakeDiamondRange(row, col, range, result);
+					break;
+				case (int)AimingCode.Cross:
+					MakeCrossRange(row, col, range, result);
+					break;
+				case (int)AimingCode.XShape:
+					MakeXShapeRange(row, col, range, result);
+					break;
+				case (int)AimingCode.Spread:
+					MakeSpreadRange(row, col, range, result);
+					break;
+			}
+			return result;
+		}
+
+		public List<int> HighlightSkillRange(int row, int col, ActiveSkillBase skillBase)
+		{
+			if (!IsValid(row, col) || GetTile(row, col) is null || !GetTile(row, col).IsMovable())
+				return new List<int>();
             HighlightOff();
-			
+			List<int> result = SkillAimRange(row, col, skillBase.aimmingType, skillBase.aimmingRange);
+			for (int i = result.Count - 1; i >= 0; i--)
+			{
+				if (!GetTile(result[i]).IsMovable())
+					result.RemoveAt(i);
+			}
+			switch (skillBase.skillType % 100)
+			{
+				case (int)SkillTypePostCode.Target:
+					for (int i = result.Count - 1; i >= 0; i--)
+					{
+						if (GetTile(result[i]).GetEntity() is null)
+							result.RemoveAt(i);
+					}
+					break;
+				default:
+					break;
+			}
+			switch (skillBase.skillType / 100 % 100)
+			{
+				case (int)SkillTypePreCode.Penetrate:
+					for (int i = result.Count - 1; i >= 0; i--)
+					{
+						if (!CheckPenetaratebleRay(row, col, result[i] / colCount, result[i] % colCount))
+							result.RemoveAt(i);
+					}
+					break;
+				case (int)SkillTypePreCode.Direct:
+				case (int)SkillTypePreCode.Travel:
+				case (int)SkillTypePreCode.Charge:
+				case (int)SkillTypePreCode.Jump:
+					for (int i = result.Count - 1; i >= 0; i--)
+					{
+						if (!CheckRay(row, col, result[i] / colCount, result[i] % colCount))
+							result.RemoveAt(i);
+					}
+					break;
+			}
+			return result;
 		}
 	}
 }

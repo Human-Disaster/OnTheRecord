@@ -223,4 +223,38 @@ namespace ExternalStaticReference
 
 	}
 
+	public enum AimingCode
+	{
+		None,
+		// 01 - 03 사각형 기준
+		Circle,
+		Square,
+		Diamond,
+		// 04 - 06 확산 기준
+		Cross,
+		XShape,
+		Spread,
+	}
+
+	public enum SkillTypePreCode
+	{
+		None,
+		Direct,
+		HighAngle,
+		Travel,
+		Change,
+		Jump,
+		Penetrate,
+		True,
+		NonAttack
+	}
+
+	public enum SkillTypePostCode
+	{
+		None,
+		Target,
+		Nontarget,
+		Area,
+		Floor
+	}
 }

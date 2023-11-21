@@ -53,11 +53,10 @@ namespace OnTheRecord.Map
             TileState wall = new WallTileState();
             for (int loc = 0; loc < (int)objs[1] * (int)objs[2]; loc++)
             {
-                if (needPars[loc] == (int)RoomParsNum.Movable)
-                    tiles.SetState(loc, movable);
-                else if (needPars[loc] == (int)RoomParsNum.Wall)
+                if (needPars[loc] == (int)RoomParsNum.Wall)
                     tiles.SetState(loc, wall);
                 else
+                    tiles.SetState(loc, movable);
                 {
                     obj = objs[needPars[loc] + 1];
                     if (!(obj as TileState is null))
