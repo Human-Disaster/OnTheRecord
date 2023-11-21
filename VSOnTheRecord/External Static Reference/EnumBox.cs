@@ -242,7 +242,7 @@ namespace ExternalStaticReference
 		Direct,
 		HighAngle,
 		Travel,
-		Change,
+		Charge,
 		Jump,
 		Penetrate,
 		True,
