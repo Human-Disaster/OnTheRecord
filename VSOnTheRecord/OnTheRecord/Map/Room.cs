@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace OnTheRecord.Map
 {
 
-    class Room
+    public class Room
     {
         private TileMatrix tiles;
         public int[,] seed;
@@ -245,6 +245,19 @@ namespace OnTheRecord.Map
             }
             for (i = 0; i < 10; ++i)
                 Console.WriteLine(i + " : " + interverCount[i]);
+        }
+        
+        public ActivableList GetActivalbleList()
+        {
+            ActivableList activableList = new ActivableList();
+            int max = tiles.GetLength(0) * tiles.GetLength(1);
+            for (int i = 0; i < max; i++)
+            {
+                Entity.Entity entity = tiles.GetEntity(i);
+                if (!(entity is null) && entity is ActivableEntity)
+                    activableList.Add(tiles.GetState(i, j));
+            }
+            return activableList;
         }
     }
 }

@@ -273,6 +273,36 @@ namespace OnTheRecord.Map
 			}
 		}
 
+		public List<int> RayList(int startR, int startC, int endR, int endC, int range)
+		{
+			if (!IsValid(startR, startC))
+				return new List<int>();
+			List<int> result = new List<int>();
+			result.Add(startR * colCount + startC);
+			if (range == 0)
+				return result;
+			int rowDiff = endR - startR;
+			int colDiff = endC - startC;
+			int gcd = GCD(Math.Abs(rowDiff), Math.Abs(colDiff));
+			rowDiff /= gcd;
+			colDiff /= gcd;
+			int rowAdd;
+			if (rowDiff == 0)
+				rowAdd = 0;
+			else
+				rowAdd = rowDiff > 0 ? 1 : -1;
+			int colAdd;
+			if (colDiff == 0)
+				colAdd = 0;
+			else
+				colAdd = colDiff > 0 ? 1 : -1;
+			int dist = Math.Abs(rowDiff) > Math.Abs(colDiff) ? Math.Abs(rowDiff) : Math.Abs(colDiff);
+			bool direction = Math.Abs(rowDiff) > Math.Abs(colDiff);
+			int check = Math.Abs(rowDiff) > Math.Abs(colDiff) ? Math.Abs(colDiff) : Math.Abs(rowDiff);
+			int checkAdd = check * 2;
+
+		}
+
 		public void HighlightOff()
 		{
 			for (int i = 0; i < rowCount * colCount; i++)
@@ -414,7 +444,7 @@ namespace OnTheRecord.Map
 			}
 		}
 
-		private List<int> SkillAimRange(int row, int col, int aimType, int range)
+		private List<int> SkillAimRangeList(int row, int col, int aimType, int range)
 		{
 			List<int> result = new List<int>();
 			switch (aimType)
@@ -441,11 +471,11 @@ namespace OnTheRecord.Map
 			return result;
 		}
 
-		public List<int> HighlightSkillRange(int row, int col, ActiveSkillBase skillBase)
+		public List<int> ActiveSkillAimRange(int row, int col, ActiveSkillBase skillBase)
 		{
 			if (!IsValid(row, col) || GetTile(row, col) is null || !GetTile(row, col).IsMovable())
 				return new List<int>();
-            HighlightOff();
+			HighlightOff();
 			List<int> result = SkillAimRange(row, col, skillBase.aimmingType, skillBase.aimmingRange);
 			for (int i = result.Count - 1; i >= 0; i--)
 			{
@@ -484,7 +514,39 @@ namespace OnTheRecord.Map
 					}
 					break;
 			}
+			for (int i = 0; i < result.Count; i++)
+				GetTile(result[i]).HighlightOn();
 			return result;
+		}
+
+		public List<int> ActiveSkillEffectRange(int startR, int startRow, int endR, int endRow, ActiveSkillBase skillBase)
+		{
+			if (!IsValid(startR, startRow) || !IsValid(endR, endRow))
+				return new List<int>();
+			HighlightOff();
+			List<int> result = SkillAimRange(startR, startRow, skillBase.aimmingType, skillBase.aimmingRange);
+			for (int i = result.Count - 1; i >= 0; i--)
+			{
+				if (!GetTile(result[i]).IsMovable())
+					result.RemoveAt(i);
+			}
+			switch (skillBase.skillType % 100)
+			{
+				case (int)SkillTypePostCode.Target:
+					for (int i = result.Count - 1; i >= 0; i--)
+					{
+						if (GetTile(result[i]).GetEntity() is null)
+							result.RemoveAt(i);
+					}
+					break;
+				default:
+					break;
+			}
+			switch (skillBase.skillType / 100 % 100)
+			{
+				case (int)SkillTypePreCode.Penetrate:
+					for (int i = result.Count - 1; i >= 0; i--)
+
 		}
 	}
 }

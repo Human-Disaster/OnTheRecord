@@ -21,7 +21,12 @@ namespace OnTheRecord.BasicComponent
 
     class PassiveSkill : Skill
     {
-        // need PassiveSkillBase
+        private PassiveSkillBase skillBase;
+
+        public PassiveSkill(int skillCode)
+        {
+            skillBase = OnMemoryTable.Instance.GetPassiveSkillBase(skillCode);
+        }
 
         // 스킬 자체가 가지고 있는 것들 (토큰X)
         /*
@@ -134,41 +139,70 @@ namespace OnTheRecord.BasicComponent
         }
     }
 
-    class SkillArea
+    public class PassiveSkillList
     {
-        int active_type; // 스마이트, 위치지정,
-        List<List<int>> alive_area; // 스킬 발동가능 범위
-        List<List<int>> act_effect_area; // 발동된 스킬의 효과 범위
-    }
+        private List<PassiveSkill> _passiveSkills;
+        private CalStats passiveSkillStats;
 
-    class SkillEffect
-    {
-        int movex;
-        int movey;
-    }
-
-    public class SkillList
-    {
-        List<Skill> act_list = new List<Skill>();
-        List<Skill> pas_list = new List<Skill>();
-        /*
-        public void PasiveCheck(int situation, Activable self, Activable other)
+        public PassiveSkillList()
         {
-            // to do 리스트에 트리거 체크로 패시브를 확인한 뒤 self에게 토큰을 부여하는지, other에게 부여하는지, self가 피격됬을때 other가 가지는지 확인함
-        }
-        */
-        /* parts.Sort(delegate (Part x, Part y)
-       {
-           if (x.PartName == null && y.PartName == null) return 0;
-           else if (x.PartName == null) return -1;
-           else if (y.PartName == null) return 1;
-           else return x.PartName.CompareTo(y.PartName);
-       }*/
-
-        public void Find_harm()
-        {
-
+            _passiveSkills = new List<PassiveSkill>();
+            CalculateStats();
         }
 
+        public PassiveSkillList(List<PassiveSkill> passiveSkills)
+        {
+            _passiveSkills = passiveSkills;
+            CalculateStats();
+        }
+
+        public PassiveSkillList(PassiveSkillList passiveSkillList)
+        {
+            _passiveSkills = passiveSkillList._passiveSkills;
+            CalculateStats();
+        }
+
+        public PassiveSkillList(PassiveSkill[] passiveSkills)
+        {
+            _passiveSkills = passiveSkills.ToList();
+            CalculateStats();
+        }
+
+        public void AddPassiveSkill(PassiveSkill passiveSkill)
+        {
+            _passiveSkills.Add(passiveSkill);
+            CalculateStats();
+        }
+
+        public PassiveSkillList(int[] passiveSkillCodes)
+        {
+            _passiveSkills = new List<PassiveSkill>();
+            foreach (int passiveSkillCode in passiveSkillCodes)
+            {
+                _passiveSkills.Add(new PassiveSkill(passiveSkillCode));
+            }
+            CalculateStats();
+        }
+
+        public PassiveSkillList(int passiveSkillCode)
+        {
+            _passiveSkills = new List<PassiveSkill>();
+            _passiveSkills.Add(new PassiveSkill(passiveSkillCode));
+            CalculateStats();
+        }
+
+        private void CalculateStats()
+        {
+            passiveSkillStats = new CalStats();
+            foreach (PassiveSkill passiveSkill in _passiveSkills)
+            {
+                //passiveSkillStats += passiveSkill.skillBase.GetCalStats();
+            }
+        }
+
+        public CalStats GetPassiveStats()
+        {
+            return passiveSkillStats;
+        }
     }
 }

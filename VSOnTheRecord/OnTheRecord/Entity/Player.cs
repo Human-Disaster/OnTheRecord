@@ -3,36 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-/*
+using OnTheRecord.BasicComponent;
+
 namespace OnTheRecord.Entity
 {
 
-    class Player : Activable
+    public class Player : Activable
     {
-        protected PlayerType type = new PlayerType.None();
+        private int level;
 
-        protected Player(PlayerType type) : base(ActivableType.Player)
+        public Player(
+            CalStats basicClassBaseStats,
+            CalStats basicClassGrowthStats,
+            /*
+            심화 클래스 나온 이후 처리
+            StatsBase advancedClassBaseStats,
+            StatsBase advancedClassGrowthStats,
+            CalStats traitsStats,
+            */
+            int level,
+            int camp) : base(basicClassBaseStats + (basicClassGrowthStats * (level - 1)), camp)
         {
-            this.type = type;
+            this.level = level;
         }
 
-        public PlayerType GetPlayerType() { return type; }
-    }
-
-    class Noble : Activable
-    {
-        Noble()
+        public Player(
+            CalStats basicClassBaseStats,
+            CalStats basicClassGrowthStats,
+            /*
+            심화 클래스 나온 이후 처리
+            StatsBase advancedClassBaseStats,
+            StatsBase advancedClassGrowthStats,
+            CalStats traitsStats,
+            */
+            int level,
+            int camp,
+            int a) : base(basicClassBaseStats + (basicClassGrowthStats * (level - 1)), camp, a)
         {
-            Setinfo(100, 10);
-        }
-    }
-
-    class Soldier : Activable
-    {
-        Soldier()
-        {
-            Setinfo(100, 10);
+            this.level = level;
         }
     }
 }
-*/

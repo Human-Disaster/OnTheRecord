@@ -12,6 +12,59 @@ namespace OnTheRecord.BasicComponent
 {
 	public class ActiveSkillBase : Base
 	{
+		private enum ParsNum
+		{
+			BaseCode,
+			NameCode,
+			PreProcessCode,
+			PostProcessCode,
+			ConstraintCode,
+			SkillType,
+			HpConsumption,
+			ApConsumption,
+			SanConsumption,
+			AimmingType,
+			AimmingRange,
+			EffectType,
+			EffectRange,
+			EffectTargetType,
+			RecoveryWhether,
+			HpRecoveryValue,
+			ApRecoveryValue,
+			SanRecoveryValue,
+			Damage1Whether,
+			Damage1Value,
+			Damage1Type,
+			Damage2Whether,
+			Damage2Value,
+			Damage2Type,
+			Damage3Whether,
+			Damage3Value,
+			Damage3Type,
+			GrantToken1Code,
+			GrantToken1Amount,
+			GrantToken1Target,
+			GrantToken2Code,
+			GrantToken2Amount,
+			GrantToken2Target,
+			GrantToken3Code,
+			GrantToken3Amount,
+			GrantToken3Target,
+			RemoveToken1Code,
+			RemoveToken1Amount,
+			RemoveToken1Target,
+			RemoveToken2Code,
+			RemoveToken2Amount,
+			RemoveToken2Target,
+			RemoveToken3Code,
+			RemoveToken3Amount,
+			RemoveToken3Target,
+			TileConditionCode,
+			TileConditionTurn,
+			AddStatsCode,
+			MulStatsCode
+		}
+
 		public readonly int nameCode;
 
 		public readonly int preProcessCode;
@@ -45,6 +98,8 @@ namespace OnTheRecord.BasicComponent
 		public readonly int effectType;
 		public readonly int effectRange;
 
+		public readonly int effectTargetType;
+
 		public readonly bool recoveryWhether;
 		public readonly int hpRecoveryValue;
 		public readonly int apRecoveryValue;
@@ -75,35 +130,36 @@ namespace OnTheRecord.BasicComponent
 		public ActiveSkillBase(string str) : base(str)
 		{
 			string[] values = Parse(str);
-			nameCode = int.Parse(values[1]);
-			preProcessCode = int.Parse(values[2]);
-			postProcessCode = int.Parse(values[3]);
-			constraintCode = int.Parse(values[4]);
-			skillType = int.Parse(values[5]);
-			hpConsumption = int.Parse(values[6]);
-			apConsumption = int.Parse(values[7]);
-			sanConsumption = int.Parse(values[8]);
-			aimmingType = int.Parse(values[9]);
-			aimmingRange = int.Parse(values[10]);
-			effectType = int.Parse(values[11]);
-			effectRange = int.Parse(values[12]);
-			recoveryWhether = int.Parse(values[13]) == 1;
-			hpRecoveryValue = int.Parse(values[14]);
-			apRecoveryValue = int.Parse(values[15]);
-			sanRecoveryValue = int.Parse(values[16]);
-			damage1 = new DamageInfo(int.Parse(values[17]) == 1, int.Parse(values[18]), int.Parse(values[19]));
-			damage2 = new DamageInfo(int.Parse(values[20]) == 1, int.Parse(values[21]), int.Parse(values[22]));
-			damage3 = new DamageInfo(int.Parse(values[23]) == 1, int.Parse(values[24]), int.Parse(values[25]));
-			grantToken1 = new TokenInfo(int.Parse(values[27]), int.Parse(values[28]), int.Parse(values[26]));
-			grantToken2	= new TokenInfo(int.Parse(values[30]), int.Parse(values[31]), int.Parse(values[29]));
-			grantToken3 = new TokenInfo(int.Parse(values[33]), int.Parse(values[34]), int.Parse(values[32]));
-			removeToken1 = new TokenInfo(int.Parse(values[36]), int.Parse(values[37]), int.Parse(values[35]));
-			removeToken2 = new TokenInfo(int.Parse(values[39]), int.Parse(values[40]), int.Parse(values[38]));
-			removeToken3 = new TokenInfo(int.Parse(values[42]), int.Parse(values[43]), int.Parse(values[41]));
-			tileConditionCode = int.Parse(values[44]);
-			tileConditionTurn = int.Parse(values[45]);
-			addStatsCode = int.Parse(values[46]);
-			mulStatsCode = int.Parse(values[47]);
+			nameCode = int.Parse(values[(int)ParsNum.NameCode]);
+			preProcessCode = int.Parse(values[(int)ParsNum.PreProcessCode]);
+			postProcessCode = int.Parse(values[(int)ParsNum.PostProcessCode]);
+			constraintCode = int.Parse(values[(int)ParsNum.ConstraintCode]);
+			skillType = int.Parse(values[(int)ParsNum.SkillType]);
+			hpConsumption = int.Parse(values[(int)ParsNum.HpConsumption]);
+			apConsumption = int.Parse(values[(int)ParsNum.ApConsumption]);
+			sanConsumption = int.Parse(values[(int)ParsNum.SanConsumption]);
+			aimmingType = int.Parse(values[(int)ParsNum.AimmingType]);
+			aimmingRange = int.Parse(values[(int)ParsNum.AimmingRange]);
+			effectType = int.Parse(values[(int)ParsNum.EffectType]);
+			effectRange = int.Parse(values[(int)ParsNum.EffectRange]);
+			effectTargetType = int.Parse(values[(int)ParsNum.EffectTargetType]);
+			recoveryWhether = int.Parse(values[(int)ParsNum.RecoveryWhether]) == 1;
+			hpRecoveryValue = int.Parse(values[(int)ParsNum.HpRecoveryValue]);
+			apRecoveryValue = int.Parse(values[(int)ParsNum.ApRecoveryValue]);
+			sanRecoveryValue = int.Parse(values[(int)ParsNum.SanRecoveryValue]);
+			damage1 = new DamageInfo(int.Parse(values[(int)ParsNum.Damage1Whether]) == 1, int.Parse(values[(int)ParsNum.Damage1Type]), int.Parse(values[(int)ParsNum.Damage1Value]));
+			damage2 = new DamageInfo(int.Parse(values[(int)ParsNum.Damage2Whether]) == 1, int.Parse(values[(int)ParsNum.Damage2Type]), int.Parse(values[(int)ParsNum.Damage2Value]));
+			damage3 = new DamageInfo(int.Parse(values[(int)ParsNum.Damage3Whether]) == 1, int.Parse(values[(int)ParsNum.Damage3Type]), int.Parse(values[(int)ParsNum.Damage3Value]));
+			grantToken1 = new TokenInfo(int.Parse(values[(int)ParsNum.GrantToken1Amount]), int.Parse(values[(int)ParsNum.GrantToken1Target]), int.Parse(values[(int)ParsNum.GrantToken1Code]));
+			grantToken2 = new TokenInfo(int.Parse(values[(int)ParsNum.GrantToken2Amount]), int.Parse(values[(int)ParsNum.GrantToken2Target]), int.Parse(values[(int)ParsNum.GrantToken2Code]));
+			grantToken3 = new TokenInfo(int.Parse(values[(int)ParsNum.GrantToken3Amount]), int.Parse(values[(int)ParsNum.GrantToken3Target]), int.Parse(values[(int)ParsNum.GrantToken3Code]));
+			removeToken1 = new TokenInfo(int.Parse(values[(int)ParsNum.RemoveToken1Amount]), int.Parse(values[(int)ParsNum.RemoveToken1Target]), int.Parse(values[(int)ParsNum.RemoveToken1Code]));
+			removeToken2 = new TokenInfo(int.Parse(values[(int)ParsNum.RemoveToken2Amount]), int.Parse(values[(int)ParsNum.RemoveToken2Target]), int.Parse(values[(int)ParsNum.RemoveToken2Code]));
+			removeToken3 = new TokenInfo(int.Parse(values[(int)ParsNum.RemoveToken3Amount]), int.Parse(values[(int)ParsNum.RemoveToken3Target]), int.Parse(values[(int)ParsNum.RemoveToken3Code]));
+			tileConditionCode = int.Parse(values[(int)ParsNum.TileConditionCode]);
+			tileConditionTurn = int.Parse(values[(int)ParsNum.TileConditionTurn]);
+			addStatsCode = int.Parse(values[(int)ParsNum.AddStatsCode]);
+			mulStatsCode = int.Parse(values[(int)ParsNum.MulStatsCode]);
 		}
 
 		public void SetTileCondition(TileConditionBase? tileCondition)

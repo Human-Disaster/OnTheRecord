@@ -212,6 +212,11 @@ namespace ExternalStaticReference
 		
 		NonInert = 100001,		//활성 토큰
 		Inert = 100002,			//비활성 토큰
+		Down = 100003,			//전투불능 토큰
+		
+
+		Concealment = 300001,	//은폐 토큰
+		Exposure = 400001,		//노출 토큰
 
 		ResistPhysic = 700001,	//물리 저항
 		ResistFlame = 700002,	//화염 저항
@@ -224,6 +229,19 @@ namespace ExternalStaticReference
 	}
 
 	public enum AimingCode
+	{
+		None,
+		// 01 - 03 사각형 기준
+		Circle,
+		Square,
+		Diamond,
+		// 04 - 06 확산 기준
+		Cross,
+		XShape,
+		Spread,
+	}
+
+	public enum EffectCode
 	{
 		None,
 		// 01 - 03 사각형 기준

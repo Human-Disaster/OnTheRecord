@@ -123,5 +123,12 @@ namespace OnTheRecord.Map
 			}
 			// _rooms[last] is the boss room
 		}
+
+		public Room GetRoom(int row, int col)
+		{
+			if (_rooms[row * _col + col] == null)
+				throw new Exception("Room (" + row + "," + col + ") is null");
+			return _rooms[row * _col + col] ?? 
+		}
 	}
 }

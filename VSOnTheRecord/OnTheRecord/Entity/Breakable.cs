@@ -34,11 +34,22 @@ namespace OnTheRecord.Entity
 		{
 			this.camp = camp;
 			unchangeableStats = origin;
+			tokenList = new TokenList();
 			sumStats = CalSumStats();
 			secondMulStats = CalSecondMulStats();
 			finalStats = CalFinalStats();
 			this.hp = finalStats.hpMaxS;
+		}
+
+		public Breakable(CalStats origin, int camp, int a) : base(false, a)
+		{
+			this.camp = camp;
+			unchangeableStats = origin;
 			tokenList = new TokenList();
+			sumStats = CalSumStats();
+			secondMulStats = CalSecondMulStats();
+			finalStats = CalFinalStats();
+			this.hp = finalStats.hpMaxS;
 		}
 
 		private void AddResistToken()
