@@ -23,10 +23,18 @@ namespace OnTheRecord.Map
 			_rooms = new List<Room?>(row * col);
 			_path = new List<int>(row * col);
 			_visited = new List<bool>(row * col);
+			List<bool> generatedRoom = new List<bool>(row * col);
+			for (int i = 0; i < row * col; ++i)
+			{
+				_rooms.Add(null);
+				_path.Add(0);
+				_visited.Add(false);
+				generatedRoom.Add(false);
+			}
+
 			_row = row;
 			_col = col;
 			_visited[(row / 2) * col + col / 2] = true;
-			List<bool> generatedRoom = new List<bool>(row * col);
 			List<int> posiblePath = new List<int>();
 			SortedSet<int> addedPosible = new SortedSet<int>();
 			int y = row / 2;
@@ -115,8 +123,8 @@ namespace OnTheRecord.Map
 			{
 				if (generatedRoom[x])
 				{
-					//_rooms.Add(여기에 원하는 룸 집어넣기)
 					//집어넣을 룸의 이어져있는 path를 확인하고 싶으면 _path[x] 참조
+					//_rooms.Add(여기에 원하는 룸 집어넣기)
 				}
 				else
 					_rooms.Add(null);
@@ -128,7 +136,7 @@ namespace OnTheRecord.Map
 		{
 			if (_rooms[row * _col + col] == null)
 				throw new Exception("Room (" + row + "," + col + ") is null");
-			return _rooms[row * _col + col] ?? 
+			return _rooms[row * _col + col];
 		}
 	}
 }

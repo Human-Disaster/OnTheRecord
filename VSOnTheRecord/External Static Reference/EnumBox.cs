@@ -232,26 +232,35 @@ namespace ExternalStaticReference
 	{
 		None,
 		// 01 - 03 사각형 기준
-		Circle,
+		Round,
 		Square,
 		Diamond,
 		// 04 - 06 확산 기준
 		Cross,
-		XShape,
-		Spread,
+		Diagonal,
+		EightPoint,
 	}
 
 	public enum EffectCode
 	{
 		None,
-		// 01 - 03 사각형 기준
-		Circle,
-		Square,
-		Diamond,
-		// 04 - 06 확산 기준
+		// 01 단일
+		Smite,
+		// 02 - 04 방향 기준
+		Straight,
+		Fanwise,
+		HalfRound,
+		// 05 폭발
+		Explosion,
+		// 06 횡베기
+		Slash,
+		// 07 - 09 확산 기준
 		Cross,
-		XShape,
-		Spread,
+		Diagonal,
+		EightPoint,
+		// 10 - 11 사각형 기준
+		Round,
+		Square,
 	}
 
 	public enum SkillTypePreCode

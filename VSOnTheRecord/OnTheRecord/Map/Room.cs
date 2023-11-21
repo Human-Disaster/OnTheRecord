@@ -78,6 +78,16 @@ namespace OnTheRecord.Map
 			return tiles.GetTile(row, col);
 		}
 
+        public int GetRow()
+        {
+			return tiles.GetRowLength();
+		}
+
+        public int GetCol()
+        {
+            return tiles.GetColLength();
+        }
+
         public void PrintMatrix()
         {
             string s;

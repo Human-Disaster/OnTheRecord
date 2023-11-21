@@ -273,7 +273,7 @@ namespace OnTheRecord.Map
 			}
 		}
 
-		public List<int> RayList(int startR, int startC, int endR, int endC, int range)
+		public List<int> RayList(int startR, int startC, int rowDiff, int colDiff, int range)
 		{
 			if (!IsValid(startR, startC))
 				return new List<int>();
@@ -281,8 +281,6 @@ namespace OnTheRecord.Map
 			result.Add(startR * colCount + startC);
 			if (range == 0)
 				return result;
-			int rowDiff = endR - startR;
-			int colDiff = endC - startC;
 			int gcd = GCD(Math.Abs(rowDiff), Math.Abs(colDiff));
 			rowDiff /= gcd;
 			colDiff /= gcd;
@@ -300,7 +298,46 @@ namespace OnTheRecord.Map
 			bool direction = Math.Abs(rowDiff) > Math.Abs(colDiff);
 			int check = Math.Abs(rowDiff) > Math.Abs(colDiff) ? Math.Abs(colDiff) : Math.Abs(rowDiff);
 			int checkAdd = check * 2;
-
+			int rayRow = startR;
+			int rayCol = startC;
+			range *= range;
+			while (true)
+			{
+				if (direction)
+					rayRow += rowAdd;
+				else
+					rayCol += colAdd;
+				if (check == dist)
+				{
+					if (direction)
+						rayCol += colAdd;
+					else
+						rayRow += rowAdd;
+					if (!IsValid(rayRow, rayCol) || (startR - rayRow) * (startR - rayRow) + (startC - rayCol) * (startC - rayCol) > range)
+						break;
+					result.Add(rayRow * colCount + rayCol);
+					check -= dist * 2;
+				}
+				else
+				{
+					if (!IsValid(rayRow, rayCol) || (startR - rayRow) * (startR - rayRow) + (startC - rayCol) * (startC - rayCol) > range)
+						break;
+					result.Add(rayRow * colCount + rayCol);
+					if (check > dist)
+					{
+						if (direction)
+							rayCol += colAdd;
+						else
+							rayRow += rowAdd;
+						if (!IsValid(rayRow, rayCol) || (startR - rayRow) * (startR - rayRow) + (startC - rayCol) * (startC - rayCol) > range)
+							break;
+						result.Add(rayRow * colCount + rayCol);
+						check -= dist * 2;
+					}
+				}
+				check += checkAdd;
+			}
+			return result;
 		}
 
 		public void HighlightOff()
@@ -337,7 +374,7 @@ namespace OnTheRecord.Map
 					tilesNum.Add(i * colCount + j);
 		}
 
-		private void MakeCircleRange(int row, int col, int range, List<int> tilesNum)
+		private void MakeRoundRange(int row, int col, int range, List<int> tilesNum)
 		{
 			if (!IsValid(row, col))
 				return;
@@ -400,7 +437,7 @@ namespace OnTheRecord.Map
 			}
 		}
 
-		private void MakeXShapeRange(int row, int col, int range, List<int> tilesNum)
+		private void MakeDiagonalRange(int row, int col, int range, List<int> tilesNum)
 		{
 			if (!IsValid(row, col))
 				return;
@@ -418,7 +455,7 @@ namespace OnTheRecord.Map
 			}
 		}
 
-		private void MakeSpreadRange(int row, int col, int range, List<int> tilesNum)
+		private void MakeEightPointRange(int row, int col, int range, List<int> tilesNum)
 		{
 			if (!IsValid(row, col))
 				return;
@@ -452,8 +489,8 @@ namespace OnTheRecord.Map
 				case (int)AimingCode.Square:
 					MakeSquareRange(row, col, range, result);
 					break;
-				case (int)AimingCode.Circle:
-					MakeCircleRange(row, col, range, result);
+				case (int)AimingCode.Round:
+					MakeRoundRange(row, col, range, result);
 					break;
 				case (int)AimingCode.Diamond:
 					MakeDiamondRange(row, col, range, result);
@@ -461,11 +498,46 @@ namespace OnTheRecord.Map
 				case (int)AimingCode.Cross:
 					MakeCrossRange(row, col, range, result);
 					break;
-				case (int)AimingCode.XShape:
-					MakeXShapeRange(row, col, range, result);
+				case (int)AimingCode.Diagonal:
+					MakeDiagonalRange(row, col, range, result);
 					break;
-				case (int)AimingCode.Spread:
-					MakeSpreadRange(row, col, range, result);
+				case (int)AimingCode.EightPoint:
+					MakeEightPointRange(row, col, range, result);
+					break;
+			}
+			return result;
+		}
+
+		private List<int> SkillEffectRangeList(int startR, int startC, int endR, int endC, int effectType, int range)
+		{
+			List<int> result = new List<int>();
+			switch (effectType)
+			{
+				case (int)EffectCode.Smite:
+					result.Add(endR * colCount + endC);
+					break;
+				case (int)EffectCode.Straight:
+					result = RayList(endR, endC, endR - startR, endC - startC, range);
+					break;
+				case (int)EffectCode.Square:
+					MakeSquareRange(endR, endC, range, result);
+					break;
+				case (int)EffectCode.Round:
+					MakeRoundRange(endR, endC, range, result);
+					break;
+				case (int)EffectCode.Explosion:
+					MakeDiamondRange(endR, endC, range, result);
+					break;
+				case (int)EffectCode.Cross:
+					MakeCrossRange(endR, endC, range, result);
+					break;
+				case (int)EffectCode.Diagonal:
+					MakeDiagonalRange(endR, endC, range, result);
+					break;
+				case (int)EffectCode.EightPoint:
+					MakeEightPointRange(endR, endC, range, result);
+					break;
+				default:
 					break;
 			}
 			return result;
@@ -476,7 +548,7 @@ namespace OnTheRecord.Map
 			if (!IsValid(row, col) || GetTile(row, col) is null || !GetTile(row, col).IsMovable())
 				return new List<int>();
 			HighlightOff();
-			List<int> result = SkillAimRange(row, col, skillBase.aimmingType, skillBase.aimmingRange);
+			List<int> result = SkillAimRangeList(row, col, skillBase.aimmingType, skillBase.aimmingRange);
 			for (int i = result.Count - 1; i >= 0; i--)
 			{
 				if (!GetTile(result[i]).IsMovable())
@@ -519,34 +591,13 @@ namespace OnTheRecord.Map
 			return result;
 		}
 
-		public List<int> ActiveSkillEffectRange(int startR, int startRow, int endR, int endRow, ActiveSkillBase skillBase)
+		public List<int> ActiveSkillEffectRange(int startR, int startC, int endR, int endC, ActiveSkillBase skillBase)
 		{
-			if (!IsValid(startR, startRow) || !IsValid(endR, endRow))
+			if (!IsValid(startR, startC) || !IsValid(endR, endC))
 				return new List<int>();
 			HighlightOff();
-			List<int> result = SkillAimRange(startR, startRow, skillBase.aimmingType, skillBase.aimmingRange);
-			for (int i = result.Count - 1; i >= 0; i--)
-			{
-				if (!GetTile(result[i]).IsMovable())
-					result.RemoveAt(i);
-			}
-			switch (skillBase.skillType % 100)
-			{
-				case (int)SkillTypePostCode.Target:
-					for (int i = result.Count - 1; i >= 0; i--)
-					{
-						if (GetTile(result[i]).GetEntity() is null)
-							result.RemoveAt(i);
-					}
-					break;
-				default:
-					break;
-			}
-			switch (skillBase.skillType / 100 % 100)
-			{
-				case (int)SkillTypePreCode.Penetrate:
-					for (int i = result.Count - 1; i >= 0; i--)
-
+			List<int> result = SkillEffectRangeList(startR, startC, endR, endC, skillBase.aimmingType, skillBase.aimmingRange);
+			return result;
 		}
 	}
 }
