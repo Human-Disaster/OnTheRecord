@@ -193,15 +193,23 @@ namespace OnTheRecord.Entity
 				default:
 					break;
 			}
+			float resi = finalStats.defRS;
+			if (resi > 75F)
+				resi = 75F;
+			damage *= (100F - resi) / 100F;
+			resi = finalStats.defTS;
+			if (resi < 0F)
+				resi = 0F;
+			damage -= resi;
 			return damage;
 		}
 
-		public void ChangeHp(float change)
+		public void ChangeHp(float value)
 		{
-			if (change < 0)
-				SubHp(change);
+			if (value < 0)
+				SubHp(-value);
 			else
-				AddHp(change);
+				AddHp(value);
 		}
 
 		virtual public void AddToken(Token t)
@@ -210,12 +218,27 @@ namespace OnTheRecord.Entity
 			sumStats = CalSumStats();
 			secondMulStats = CalSecondMulStats();
 			finalStats = CalFinalStats();
+			ChangeFinalStats();
+		}
+
+		virtual public void ChangeFinalStats()
+		{
 			if (hp > finalStats.hpMaxS)
 				hp = finalStats.hpMaxS;
 		}
 
 		virtual public void Situation(int situation)
 		{
+			switch (situation)
+			{
+				case (int)SituationCode.endTurn:
+					TurnEnd();
+					break;
+				case (int)SituationCode.startTurn:
+					TurnStart();
+					break;
+
+			}
 			// Passive 스킬이 있는 개체는 Passive 처리 먼저 
 			tokenList.Situation(situation, this);
 		}
@@ -226,8 +249,6 @@ namespace OnTheRecord.Entity
 			tokenList.AddWithoutCalStats((int)TokenCode.Inert);
 			// 활성 토큰 제거
 			tokenList.RemoveWithoutCalStats((int)TokenCode.NonInert);
-			// 턴 종료 시츄에이션
-			Situation((int)SituationCode.endTurn);
 		}
 
 		virtual public void TurnStart()
@@ -236,8 +257,7 @@ namespace OnTheRecord.Entity
 			tokenList.AddWithoutCalStats((int)TokenCode.NonInert);
 			// 비활성 토큰 제거
 			tokenList.RemoveWithoutCalStats((int)TokenCode.Inert);
-			// 턴 시작 시츄에이션
-			Situation((int)SituationCode.startTurn);
+			AddHp(finalStats.hpRS);
 		}
 
 	}

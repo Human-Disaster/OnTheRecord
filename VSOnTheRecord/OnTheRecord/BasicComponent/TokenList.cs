@@ -90,6 +90,13 @@ namespace OnTheRecord.BasicComponent
 			Add(new Token(tokenCode, stack));
 		}
 
+		public void Add(TokenInfo ti)
+		{
+			if (ti.token is null)
+				return;
+			Add(new Token(ti.token, ti.tokenAmount));
+		}
+
 		public void RemoveWithoutCalStats(Token t)
 		{
 			// 나중에 완전히 모든 조건식이 확정이 나면 그에 따라 Stats의 계산의 필요성을 계산할 수 있다.
@@ -125,6 +132,13 @@ namespace OnTheRecord.BasicComponent
 		{
 			RemoveWithoutCalStats(t);
 			CalculateStats();
+		}
+
+		public void Remove(TokenInfo ti)
+		{
+			if (ti.token is null)
+				return;
+			Remove(new Token(ti.token, ti.tokenAmount));
 		}
 
 		public void Remove(TokenBase tb)
