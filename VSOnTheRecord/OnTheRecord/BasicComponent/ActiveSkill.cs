@@ -48,6 +48,8 @@ namespace OnTheRecord.BasicComponent
 				cooltime--;
 			if (skillBase.GetAvailableCount() != 0)
 				availableCount = skillBase.GetAvailableCount();
+			else
+				availableCount = 1;
 		}
 
 		// -1 : 미스
