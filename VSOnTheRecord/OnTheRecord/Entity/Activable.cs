@@ -121,6 +121,11 @@ namespace OnTheRecord.Entity
 			switch (situation)
 			{
 				case (int)SituationCode.endTurn:
+					foreach (ActiveSkill? activeSkill in activeSkills)
+					{
+						if (activeSkill is not null)
+							activeSkill.TurnEnd();
+					}
 					TurnEnd();
 					break;
 				case (int)SituationCode.startTurn:
