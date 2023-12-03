@@ -14,6 +14,7 @@ namespace OnTheRecord.Entity
 	{
 		public List<Activable> activableList;
 		public int currentTurnActivable;
+		private static ActivableComparer _activableComparer = new ActivableComparer();
 
 		public void Situation(int situation)
 		{
@@ -30,7 +31,14 @@ namespace OnTheRecord.Entity
 
 		private void TurnEnd()
 		{
-			currentTurnActivable++;
+			activableList[currentTurnActivable].Situation((int)SituationCode.endTurn);
+			if (++currentTurnActivable >= activableList.Count)
+				RoundEnd();
+			else
+			{
+				SortTurn();
+				activableList[currentTurnActivable].Situation((int)SituationCode.startTurn);
+			}
 		}
 
 		private void RoundEnd()
@@ -96,17 +104,21 @@ namespace OnTheRecord.Entity
 
 		public void RemoveActivable(Activable activable)
 		{
+			if (currentTurnActivable >= activableList.IndexOf(activable))
+				currentTurnActivable--;
 			activableList.Remove(activable);
 		}
 
 		public void RemoveAtActivable(int index)
 		{
+			if (currentTurnActivable >= index)
+				currentTurnActivable--;
 			activableList.RemoveAt(index);
 		}
 
 		public void SortTurn()
 		{
-			activableList.Sort()
+			activableList.Sort(currentTurnActivable, activableList.Count - currentTurnActivable, _activableComparer);
 		}
 	}
 }

@@ -213,6 +213,7 @@ namespace ExternalStaticReference
 		NonInert = 100001,		//활성 토큰
 		Inert = 100002,			//비활성 토큰
 		Down = 100003,			//전투불능 토큰
+		FirstStrike = 100004,	//선제공격 토큰
 		
 
 		Concealment = 300001,	//은폐 토큰

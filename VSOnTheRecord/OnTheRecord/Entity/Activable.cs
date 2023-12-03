@@ -219,6 +219,10 @@ namespace OnTheRecord.Entity
 			else
 				return (int)SkillUseResult.NullError;
 		}
-	}
 
+		public bool IsDead()
+		{
+			return hp <= 0;
+		}
+	}
 }
