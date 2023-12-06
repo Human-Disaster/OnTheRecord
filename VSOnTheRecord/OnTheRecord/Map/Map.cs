@@ -26,7 +26,6 @@ namespace OnTheRecord.Map
 			List<bool> generatedRoom = new List<bool>(row * col);
 			for (int i = 0; i < row * col; ++i)
 			{
-				_rooms.Add(null);
 				_path.Add(0);
 				_visited.Add(false);
 				generatedRoom.Add(false);
