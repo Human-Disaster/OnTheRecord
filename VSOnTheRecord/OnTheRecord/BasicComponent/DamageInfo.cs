@@ -8,13 +8,13 @@ namespace OnTheRecord.BasicComponent
 {
 	public class DamageInfo
 	{
-		public readonly bool damageWhether;
+		public readonly int damageTarget;
 		public readonly int damageValue;
 		public readonly int damageType;
 
-		public DamageInfo(bool damageWhether, int damageValue, int damageType)
+		public DamageInfo(int damageTarget, int damageValue, int damageType)
 		{
-			this.damageWhether = damageWhether;
+			this.damageTarget = damageTarget;
 			this.damageValue = damageValue;
 			this.damageType = damageType;
 		}

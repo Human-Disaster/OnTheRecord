@@ -27,18 +27,17 @@ namespace OnTheRecord.BasicComponent
 			AimmingRange,
 			EffectType,
 			EffectRange,
-			EffectTargetType,
 			RecoveryWhether,
 			HpRecoveryValue,
 			ApRecoveryValue,
 			SanRecoveryValue,
-			Damage1Whether,
+			Damage1Target,
 			Damage1Value,
 			Damage1Type,
-			Damage2Whether,
+			Damage2Target,
 			Damage2Value,
 			Damage2Type,
-			Damage3Whether,
+			Damage3Target,
 			Damage3Value,
 			Damage3Type,
 			GrantToken1Code,
@@ -147,9 +146,9 @@ namespace OnTheRecord.BasicComponent
 			hpRecoveryValue = int.Parse(values[(int)ParsNum.HpRecoveryValue]);
 			apRecoveryValue = int.Parse(values[(int)ParsNum.ApRecoveryValue]);
 			sanRecoveryValue = int.Parse(values[(int)ParsNum.SanRecoveryValue]);
-			damage1 = new DamageInfo(int.Parse(values[(int)ParsNum.Damage1Whether]) == 1, int.Parse(values[(int)ParsNum.Damage1Type]), int.Parse(values[(int)ParsNum.Damage1Value]));
-			damage2 = new DamageInfo(int.Parse(values[(int)ParsNum.Damage2Whether]) == 1, int.Parse(values[(int)ParsNum.Damage2Type]), int.Parse(values[(int)ParsNum.Damage2Value]));
-			damage3 = new DamageInfo(int.Parse(values[(int)ParsNum.Damage3Whether]) == 1, int.Parse(values[(int)ParsNum.Damage3Type]), int.Parse(values[(int)ParsNum.Damage3Value]));
+			damage1 = new DamageInfo(int.Parse(values[(int)ParsNum.Damage1Target]), int.Parse(values[(int)ParsNum.Damage1Type]), int.Parse(values[(int)ParsNum.Damage1Value]));
+			damage2 = new DamageInfo(int.Parse(values[(int)ParsNum.Damage2Target]), int.Parse(values[(int)ParsNum.Damage2Type]), int.Parse(values[(int)ParsNum.Damage2Value]));
+			damage3 = new DamageInfo(int.Parse(values[(int)ParsNum.Damage3Target]), int.Parse(values[(int)ParsNum.Damage3Type]), int.Parse(values[(int)ParsNum.Damage3Value]));
 			grantToken1 = new TokenInfo(int.Parse(values[(int)ParsNum.GrantToken1Amount]), int.Parse(values[(int)ParsNum.GrantToken1Target]), int.Parse(values[(int)ParsNum.GrantToken1Code]));
 			grantToken2 = new TokenInfo(int.Parse(values[(int)ParsNum.GrantToken2Amount]), int.Parse(values[(int)ParsNum.GrantToken2Target]), int.Parse(values[(int)ParsNum.GrantToken2Code]));
 			grantToken3 = new TokenInfo(int.Parse(values[(int)ParsNum.GrantToken3Amount]), int.Parse(values[(int)ParsNum.GrantToken3Target]), int.Parse(values[(int)ParsNum.GrantToken3Code]));
