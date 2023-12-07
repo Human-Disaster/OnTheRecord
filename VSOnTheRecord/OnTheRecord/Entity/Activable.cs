@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ExternalStaticReference;
 using OnTheRecord.BasicComponent;
+using OnTheRecord.Map;
 
 namespace OnTheRecord.Entity
 {
@@ -155,69 +156,29 @@ namespace OnTheRecord.Entity
 
 		public enum SkillUseResult
 		{
-			NotEnoughHp = -4,
-			NotEnoughAp = -3,
-			NotEnoughSan = -2,
+			NotAvailable = -2,
 			NullError = -1,
 			Success = 0,
 		}
 
-		public int UseSkill(int skillIndex, Breakable[] targets)
+		public int UseSkill(int skillIndex, Breakable[] targets, Tile targetTile)
 		{
 			if (activeSkills.Length > skillIndex && !(activeSkills[skillIndex] is null))
 			{
-				return UseSkill(activeSkills[skillIndex], targets);
+				return UseSkill(activeSkills[skillIndex], targets, targetTile);
 			}
 			else
 				return (int)SkillUseResult.NullError;
 		}
 
-		public int UseSkill(ActiveSkill activeSkill, Breakable[] targets)
+		public int UseSkill(ActiveSkill activeSkill, Breakable[] targets, Tile targetTile)
 		{
-			if (activeSkill is not null)
-			{
-				if (ap < -activeSkill.skillBase.apConsumption)
-					return (int)SkillUseResult.NotEnoughAp;
-				else if (sanity < -activeSkill.skillBase.sanConsumption)
-					return (int)SkillUseResult.NotEnoughSan;
-				else if (hp < -activeSkill.skillBase.hpConsumption)
-					return (int)SkillUseResult.NotEnoughHp;
-				ChangeAp(activeSkill.skillBase.apConsumption);
-				ChangeSanity(activeSkill.skillBase.sanConsumption);
-				ChangeHp(activeSkill.skillBase.hpConsumption);
-				//확정
-				foreach (Breakable target in targets)
-				{
-					if (activeSkill.skillBase.recoveryWhether)
-					{
-						target.AddHp(activeSkill.skillBase.hpRecoveryValue);
-						if (!(target as Activable is null))
-						{
-							((Activable)target).AddAp(activeSkill.skillBase.apRecoveryValue);
-							((Activable)target).AddSanity(activeSkill.skillBase.sanRecoveryValue);
-						}
-					}
-					target.tokenList.Add(activeSkill.skillBase.grantToken1);
-					target.tokenList.Add(activeSkill.skillBase.grantToken2);
-					target.tokenList.Add(activeSkill.skillBase.grantToken3);
-					target.tokenList.Remove(activeSkill.skillBase.removeToken1);
-					target.tokenList.Remove(activeSkill.skillBase.removeToken2);
-					target.tokenList.Remove(activeSkill.skillBase.removeToken3);
-				}
-				//불확정
-				if (activeSkill.skillBase.damage1.damageWhether
-					|| activeSkill.skillBase.damage2.damageWhether
-					|| activeSkill.skillBase.damage3.damageWhether)
-				{
-					foreach (Breakable target in targets)
-					{
-						activeSkill.AtkRoll(this, target);
-					}
-				}
-				return (int)SkillUseResult.Success;
-			}
-			else
+			if (activeSkill is null)
 				return (int)SkillUseResult.NullError;
+			if (!activeSkill.IsAvailable(this))
+				return (int)SkillUseResult.NotAvailable;
+			activeSkill.AtkRoll(this, targets, targetTile);
+			return (int)SkillUseResult.Success;
 		}
 
 		public bool IsDead()

@@ -50,6 +50,12 @@ namespace OnTheRecord.BasicComponent
 			this.stack = stack;
 		}
 
+		public Token(TokenInfo otherInfo)
+		{
+			tBase = otherInfo.token;
+			stack = otherInfo.tokenAmount;
+		}
+
 		public int CompareTo(object? obj)
 		{
 			if (obj == null) return 1;

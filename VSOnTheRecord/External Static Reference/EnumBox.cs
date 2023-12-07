@@ -285,4 +285,22 @@ namespace ExternalStaticReference
 		Area,
 		Floor
 	}
+
+	public enum TargetPreCode
+	{
+		None,
+		Target = 1,
+		Area = 2,
+	}
+
+	public enum TargetPostCode
+	{
+		None,
+		Every = 1,
+		Self = 2,
+		Squadmate = 3,
+		Squad = 4,
+		Enemy = 5,
+		AllEnemy = 6,
+	}
 }

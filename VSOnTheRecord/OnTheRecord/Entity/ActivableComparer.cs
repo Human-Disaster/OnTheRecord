@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using OnTheRecord.BasicComponent;
+using ExternalStaticReference;
 
 namespace OnTheRecord.Entity
 {
@@ -7,15 +8,15 @@ namespace OnTheRecord.Entity
 	{
 		public int Compare(Activable x, Activable y)
 		{
-			if (a.tokenList.GetStack((int)TokenCode.FirstStrike) > 0 &&
-				b.tokenList.GetStack((int)TokenCode.FirstStrike) == 0)
+			if (x.tokenList.GetTokenStack((int)TokenCode.FirstStrike) > 0 &&
+				y.tokenList.GetTokenStack((int)TokenCode.FirstStrike) == 0)
 				return 1;
-			else if (a.tokenList.GetStack((int)TokenCode.FirstStrike) == 0 &&
-				b.tokenList.GetStack((int)TokenCode.FirstStrike) > 0)
+			else if (x.tokenList.GetTokenStack((int)TokenCode.FirstStrike) == 0 &&
+				y.tokenList.GetTokenStack((int)TokenCode.FirstStrike) > 0)
 				return -1;
-			if (x.stats.speed > y.stats.speed)
+			if (x.finalStats.spdS > y.finalStats.spdS)
 				return 1;
-			else if (x.stats.speed < y.stats.speed)
+			else if (x.finalStats.spdS < y.finalStats.spdS)
 				return -1;
 			else
 				return 0;
